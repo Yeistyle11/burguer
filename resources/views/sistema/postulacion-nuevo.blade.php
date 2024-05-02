@@ -2,18 +2,18 @@
 @section('titulo', $titulo)
 @section('scripts')
 <script>
-      globalId = '<?php echo isset($cliente->idcliente) && $cliente->idcliente > 0 ? $cliente->idcliente : 0; ?>';
-      <?php $globalId = isset($cliente->idcliente) ? $cliente->idcliente : "0"; ?>
+      globalId = '<?php echo isset($postulacion->idpostulacion) && $postulacion->idpostulacion > 0 ? $postulacion->idpostulacion : 0; ?>';
+      <?php $globalId = isset($postulacion->idpostulacion) ? $postulacion->idpostulacion : "0"; ?>
 </script>
 @endsection
 @section('breadcrumb')
 <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="/admin/home">Inicio</a></li>
-      <li class="breadcrumb-item"><a href="/admin/clientes">Clientes</a></li>
+      <li class="breadcrumb-item"><a href="/admin/postulaciones">Postulaciones</a></li>
       <li class="breadcrumb-item active">Modificar</li>
 </ol>
 <ol class="toolbar">
-      <li class="btn-item"><a title="Nuevo" href="/admin/cliente/nuevo" class="fa fa-plus-circle" aria-hidden="true"><span>Nuevo</span></a></li>
+      <li class="btn-item"><a title="Nuevo" href="/admin/postulacion/nuevo" class="fa fa-plus-circle" aria-hidden="true"><span>Nuevo</span></a></li>
       <li class="btn-item"><a title="Guardar" href="#" class="fa fa-floppy-o" aria-hidden="true" onclick="javascript: $('#modalGuardar').modal('toggle');"><span>Guardar</span></a>
       </li>
       @if($globalId > 0)
@@ -46,34 +46,27 @@ if (isset($msg)) {
                   <div class="form-group col-lg-6">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"></input>
                         <input type="hidden" id="id" name="id" class="form-control" value="{{$globalId}}" required>
-                        <label>Telefono: </label>
-                        <input type="text" id="txtTelefono" name="txtTelefono" class="form-control" value="">
+                        <label>Apellido: </label>
+                        <input type="text" id="txtApellido" name="txtApellido" class="form-control" value="">
                   </div>
                   <div class="form-group col-lg-6">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"></input>
                         <input type="hidden" id="id" name="id" class="form-control" value="{{$globalId}}" required>
-                        <label>Direccion: </label>
-                        <input type="text" id="txtDireccion" name="txtDireccion" class="form-control" value="">
+                        <label>WhatApp: </label>
+                        <input type="text" id="txtWhatsapp" name="txtWhatsapp" class="form-control" value="">
                   </div>
                   <div class="form-group col-lg-6">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"></input>
                         <input type="hidden" id="id" name="id" class="form-control" value="{{$globalId}}" required>
-                        <label>DNI: *</label>
-                        <input type="text" id="txtDni" name="txtDni" class="form-control" value="" required>
+                        <label>Correo: </label>
+                        <input type="email" id="txtCorreo" name="txtCorreo" class="form-control" value="">
                   </div>
                   <div class="form-group col-lg-6">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"></input>
                         <input type="hidden" id="id" name="id" class="form-control" value="{{$globalId}}" required>
-                        <label>Correo: *</label>
-                        <input type="email" id="txtCorreo" name="txtCorreo" class="form-control" value="" required>
+                        <label>Link CV: *</label>
+                        <input type="text" id="txtLink" name="txtLink" class="form-control" value="" required>
                   </div>
-                  <div class="form-group col-lg-6">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}"></input>
-                        <input type="hidden" id="id" name="id" class="form-control" value="{{$globalId}}" required>
-                        <label>Clave: *</label>
-                        <input type="password" id="txtClave" name="txtClave" class="form-control" value="" required>
-                  </div>
-            </div>
 </div>
             
       </form>

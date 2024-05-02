@@ -117,6 +117,12 @@ Route::get('/admin/pedido/nuevo', 'ControladorPedido@nuevo');
 
 
 /* --------------------------------------------- */
+/* CONTROLADOR POSTULACIONES                       */
+/* --------------------------------------------- */
+Route::get('/admin/postulacion/nuevo', 'ControladorPostulacion@nuevo');
+
+
+/* --------------------------------------------- */
 /* CONTROLADOR SUCURSALES                      */
 /* --------------------------------------------- */
 Route::get('/admin/sucursal/nuevo', 'ControladorSucursal@nuevo');
