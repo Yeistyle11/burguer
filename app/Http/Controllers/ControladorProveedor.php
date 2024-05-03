@@ -17,35 +17,42 @@ class ControladorProveedor extends Controller
             return view("sistema.proveedor-nuevo", compact("titulo"));
       }
 
+      public function index()
+      {
+            $titulo = "Listado de proveedores";
+            return view("sistema.proveedor-listar", compact("titulo"));
+      }
+
+
       public function guardar(Request $request)
       {
             try {
-                  //Define la entidad cliente
+                  //Define la entidad proveedor
                   $titulo = "Modificar proveedor";
                   $entidad = new Proveedor();
                   $entidad->cargarDesdeRequest($request);
-      
+
                   //validaciones
                   if ($entidad->nombre == "" || $entidad->dni == "") {
-                      $msg["ESTADO"] = MSG_ERROR;
-                      $msg["MSG"] = "Complete todos los datos";
+                        $msg["ESTADO"] = MSG_ERROR;
+                        $msg["MSG"] = "Complete todos los datos";
                   } else {
-                      if ($_POST["id"] > 0) {
-                          //Es actualizacion
-                          $entidad->guardar();
-      
-                          $msg["ESTADO"] = MSG_SUCCESS;
-                          $msg["MSG"] = OKINSERT;
-                      } else {
-                          //Es nuevo
-                          $entidad->insertar();
-      
-                          $msg["ESTADO"] = MSG_SUCCESS;
-                          $msg["MSG"] = OKINSERT;
-                      }
+                        if ($_POST["id"] > 0) {
+                              //Es actualizacion
+                              $entidad->guardar();
 
-                      $_POST["id"] = $entidad->idproveedor;
-                      return view('sistema.proveedor-listar', compact('titulo', 'msg'));
+                              $msg["ESTADO"] = MSG_SUCCESS;
+                              $msg["MSG"] = OKINSERT;
+                        } else {
+                              //Es nuevo
+                              $entidad->insertar();
+
+                              $msg["ESTADO"] = MSG_SUCCESS;
+                              $msg["MSG"] = OKINSERT;
+                        }
+
+                        $_POST["id"] = $entidad->idproveedor;
+                        return view('sistema.proveedor-listar', compact('titulo', 'msg'));
                   }
             } catch (Exception $e) {
                   $msg["ESTADO"] = MSG_ERROR;
@@ -59,5 +66,3 @@ class ControladorProveedor extends Controller
             return view('sistema.proveedor-nuevo', compact('msg', 'proveedor', 'titulo')) . '?id=' . $proveedor->idproveedor;
       }
 }
-
-?>

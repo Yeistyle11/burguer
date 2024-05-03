@@ -65,9 +65,9 @@ if (isset($msg)) {
                         <label>Seleccione tipo producto: *</label>
                         <select class="form-control" id="lstTipoProducto" name="lstTipoProducto" required>
                         <option value="" disabled selected>Seleccionar</option>
-                              <option value="1">Tipo 1</option>
-                              <option value="2">Tipo 2</option>
-                              <option value="3">Tipo 3</option>
+                        @foreach($aCategorias as $categoria)
+                              <option value="{{ $categoria->idtipoproducto }}">{{ $categoria->nombre }}</option>
+                        @endforeach
                         </select>
                   </div>
                   <div class="form-group col-lg-6">

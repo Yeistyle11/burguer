@@ -40,28 +40,28 @@ if (isset($msg)) {
                   <div class="form-group col-lg-6">
                         <label>Seleccione cliente: *</label>
                         <select class="form-control" id="lstCliente" name="lstCliente" required>
-                              <option value="" disabled selected>Seleccionar</option>
-                              <option value="1">Cliente 1</option>
-                              <option value="2">Cliente 2</option>
-                              <option value="3">Cliente 3</option>
+                        @foreach($aClientes as $cliente)
+                              <option value="{{ $cliente->idcliente }}">{{ $cliente->nombre }}</option>
+                        @endforeach
                         </select>
                   </div>
                   <div class="form-group col-lg-6">
                         <label>Seleccione sucursal: *</label>
                         <select class="form-control" id="lstSucursal" name="lstSucursal" required>
                               <option value="" disabled selected>Seleccionar</option>
-                              <option value="1">Sucursal 1</option>
-                              <option value="2">Sucursal 2</option>
-                              <option value="3">Sucursal 3</option>
+                              @foreach($aSucursales as $sucursal)
+                              <option value="{{ $sucursal->idsucursal }}">{{ $sucursal->nombre }}</option>
+                        @endforeach
                         </select>
                   </div>
                   <div class="form-group col-lg-6">
                         <label>Seleccione estado del pedido: *</label>
                         <select class="form-control" id="lstEstadoPedido" name="lstEstadoPedido" required>
                               <option value="" disabled selected>Seleccionar</option>
-                              <option value="1">Estado 1</option>
-                              <option value="2">Estado 2</option>
-                              <option value="3">Estado 3</option>
+                              @foreach($aEstadoPedidos as $estado_pedido)
+                              <option value="{{ $estado_pedido->idestadopedido }}">{{ $estado_pedido->nombre }}</option>
+                        @endforeach
+                        </select>
                         </select>
                   </div>
                   <div class="form-group col-lg-6">
