@@ -5,7 +5,7 @@ namespace App\Entidades;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 
-class Tipo_producto extends Model
+class Categoria extends Model
 {
       protected $table = 'tipo_productos';
       public $timestamps = false;
@@ -15,6 +15,12 @@ class Tipo_producto extends Model
       ];
 
       protected $hidden = [];
+
+      public function cargarDesdeRequest($request) 
+      {
+            $this->idtipoproducto = $request->input('id') != "0" ? $request->input('id') : $this->idtipoproducto;
+            $this->nombre = $request->input('txtNombre');
+      }
 
       public function obtenerTodos()
       {

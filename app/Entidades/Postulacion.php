@@ -16,6 +16,16 @@ class Postulacion extends Model
 
       protected $hidden = [];
 
+      public function cargarDesdeRequest($request)
+      {
+            $this->idpostulacion = $request->input('id') != "0" ? $request->input('id') : $this->idpostulacion;
+            $this->nombre = $request->input('txtNombre');
+            $this->apellido = $request->input('txtApellido');
+            $this->whatsapp = $request->input('txtWhatsapp');
+            $this->correo = $request->input('txtCorreo');
+            $this->linkcv = $request->input('txtLink');
+      }
+
       public function obtenerTodos()
       {
             $sql = "SELECT 

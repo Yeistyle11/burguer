@@ -16,6 +16,16 @@ class Pedido extends Model
 
       protected $hidden = [];
 
+      public function cargarDesdeRequest($request)
+      {
+            $this->idpedido = $request->input('id') != "0" ? $request->input('id') : $this->idpedido;
+            $this->fk_idcliente = $request->input('lstCliente');
+            $this->fk_idsucursal = $request->input('lstSucursal');
+            $this->fk_idestadopedido = $request->input('lstEstadoPedido');
+            $this->fecha = $request->input('txtFecha');
+            $this->total = $request->input('txtTotal');
+      }
+
       public function obtenerTodos()
       {
             $sql = "SELECT

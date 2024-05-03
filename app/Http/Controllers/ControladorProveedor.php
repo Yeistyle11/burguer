@@ -2,30 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use App\Entidades\Postulacion;
+use App\Entidades\Cliente;
+use App\Entidades\Proveedor;
 use Illuminate\Http\Request;
 
 require app_path() . '/start/constants.php';
 
-class ControladorPostulacion extends Controller
+class ControladorProveedor extends Controller
 {
 
       public function nuevo()
       {
-            $titulo = "Nueva postulacion";
-            return view("sistema.postulacion-nuevo", compact("titulo"));
+            $titulo = "Nuevo proveedor";
+            return view("sistema.proveedor-nuevo", compact("titulo"));
       }
 
       public function guardar(Request $request)
       {
             try {
                   //Define la entidad cliente
-                  $titulo = "Modificar postulacion";
-                  $entidad = new Postulacion();
+                  $titulo = "Modificar proveedor";
+                  $entidad = new Proveedor();
                   $entidad->cargarDesdeRequest($request);
       
                   //validaciones
-                  if ($entidad->nombre == "" || $entidad->linkcv == "") {
+                  if ($entidad->nombre == "" || $entidad->dni == "") {
                       $msg["ESTADO"] = MSG_ERROR;
                       $msg["MSG"] = "Complete todos los datos";
                   } else {
@@ -43,19 +44,19 @@ class ControladorPostulacion extends Controller
                           $msg["MSG"] = OKINSERT;
                       }
 
-                      $_POST["id"] = $entidad->idpostulacion;
-                      return view('sistema.postulacion-listar', compact('titulo', 'msg'));
+                      $_POST["id"] = $entidad->idproveedor;
+                      return view('sistema.proveedor-listar', compact('titulo', 'msg'));
                   }
             } catch (Exception $e) {
                   $msg["ESTADO"] = MSG_ERROR;
                   $msg["MSG"] = ERRORINSERT;
             }
 
-            $id = $entidad->idpostulacion;
-            $postulacion = new Postulacion();
-            $postulacion->obtenerPorId($id);
+            $id = $entidad->idproveedor;
+            $proveedor = new Proveedor();
+            $proveedor->obtenerPorId($id);
 
-            return view('sistema.postulacion-nuevo', compact('msg', 'postulacion', 'titulo')) . '?id=' . $postulacion->idpostulacion;
+            return view('sistema.proveedor-nuevo', compact('msg', 'proveedor', 'titulo')) . '?id=' . $proveedor->idproveedor;
       }
 }
 

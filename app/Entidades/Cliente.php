@@ -16,6 +16,17 @@ class Cliente extends Model
 
       protected $hidden = [];
 
+      public function cargarDesdeRequest($request) 
+      {
+            $this->idcliente = $request->input('id') != "0" ? $request->input('id') : $this->idcliente;
+            $this->nombre = $request->input('txtNombre');
+            $this->telefono = $request->input('txtTelefono');
+            $this->direccion = $request->input('txtDireccion');
+            $this->dni = $request->input('txtDni');
+            $this->correo = $request->input('txtCorreo');
+            $this->clave = $request->input('txtClave');
+      }
+
       public function obtenerTodos()
       {
             $sql = "SELECT

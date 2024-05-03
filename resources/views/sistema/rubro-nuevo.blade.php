@@ -2,18 +2,18 @@
 @section('titulo', $titulo)
 @section('scripts')
 <script>
-      globalId = '<?php echo isset($proveedor->idproveedor) && $proveedor->idproveedor > 0 ? $proveedor->idproveedor : 0; ?>';
-      <?php $globalId = isset($proveedor->idproveedor) ? $proveedor->idproveedor : "0"; ?>
+      globalId = '<?php echo isset($rubro->idrubro) && $rubro->idrubro > 0 ? $rubro->idrubro : 0; ?>';
+      <?php $globalId = isset($rubro->idrubro) ? $rubro->idrubro : "0"; ?>
 </script>
 @endsection
 @section('breadcrumb')
 <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="/admin/home">Inicio</a></li>
-      <li class="breadcrumb-item"><a href="/admin/proveedores">Proveedores</a></li>
+      <li class="breadcrumb-item"><a href="/admin/rubros">Rubros</a></li>
       <li class="breadcrumb-item active">Modificar</li>
 </ol>
 <ol class="toolbar">
-      <li class="btn-item"><a title="Nuevo" href="/admin/proveedor/nuevo" class="fa fa-plus-circle" aria-hidden="true"><span>Nuevo</span></a></li>
+      <li class="btn-item"><a title="Nuevo" href="/admin/rubro/nuevo" class="fa fa-plus-circle" aria-hidden="true"><span>Nuevo</span></a></li>
       <li class="btn-item"><a title="Guardar" href="#" class="fa fa-floppy-o" aria-hidden="true" onclick="javascript: $('#modalGuardar').modal('toggle');"><span>Guardar</span></a>
       </li>
       @if($globalId > 0)
@@ -43,27 +43,9 @@ if (isset($msg)) {
                         <label>Nombre: *</label>
                         <input type="text" id="txtNombre" name="txtNombre" class="form-control" value="" required>
                   </div>
-                  <div class="form-group col-lg-6">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}"></input>
-                        <input type="hidden" id="id" name="id" class="form-control" value="{{$globalId}}" required>
-                        <label>Documento: *</label>
-                        <input type="text" id="txtDni" name="txtDni" class="form-control" value="" required>
-                  </div>
-                  <div class="form-group col-lg-6">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}"></input>
-                        <input type="hidden" id="id" name="id" class="form-control" value="{{$globalId}}" required>
-                        <label>Telefono: </label>
-                        <input type="text" id="txtTelefono" name="txtTelefono" class="form-control" value="">
-                  </div>
-                  <div class="form-group col-lg-6">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}"></input>
-                        <input type="hidden" id="id" name="id" class="form-control" value="{{$globalId}}" required>
-                        <label>Correo: </label>
-                        <input type="email" id="txtCorreo" name="txtCorreo" class="form-control" value="">
-                  </div>
-
-            </div>
-
+                  
+</div>
+            
       </form>
       <script>
             $("#form1").validate();
@@ -79,4 +61,4 @@ if (isset($msg)) {
                   }
             }
       </script>
-      @endsection
+@endsection

@@ -2,30 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use App\Entidades\Postulacion;
+use App\Entidades\Rubro;
 use Illuminate\Http\Request;
 
 require app_path() . '/start/constants.php';
 
-class ControladorPostulacion extends Controller
+class ControladorRubro extends Controller
 {
 
       public function nuevo()
       {
-            $titulo = "Nueva postulacion";
-            return view("sistema.postulacion-nuevo", compact("titulo"));
+            $titulo = "Nuevo rubro";
+            return view("sistema.rubro-nuevo", compact("titulo"));
       }
 
       public function guardar(Request $request)
       {
             try {
                   //Define la entidad cliente
-                  $titulo = "Modificar postulacion";
-                  $entidad = new Postulacion();
+                  $titulo = "Modificar rubro";
+                  $entidad = new Rubro();
                   $entidad->cargarDesdeRequest($request);
       
                   //validaciones
-                  if ($entidad->nombre == "" || $entidad->linkcv == "") {
+                  if ($entidad->nombre == "") {
                       $msg["ESTADO"] = MSG_ERROR;
                       $msg["MSG"] = "Complete todos los datos";
                   } else {
@@ -43,19 +43,19 @@ class ControladorPostulacion extends Controller
                           $msg["MSG"] = OKINSERT;
                       }
 
-                      $_POST["id"] = $entidad->idpostulacion;
-                      return view('sistema.postulacion-listar', compact('titulo', 'msg'));
+                      $_POST["id"] = $entidad->idrubro;
+                      return view('sistema.rubro-listar', compact('titulo', 'msg'));
                   }
             } catch (Exception $e) {
                   $msg["ESTADO"] = MSG_ERROR;
                   $msg["MSG"] = ERRORINSERT;
             }
 
-            $id = $entidad->idpostulacion;
-            $postulacion = new Postulacion();
-            $postulacion->obtenerPorId($id);
+            $id = $entidad->idrubro;
+            $rubro = new Rubro();
+            $rubro->obtenerPorId($id);
 
-            return view('sistema.postulacion-nuevo', compact('msg', 'postulacion', 'titulo')) . '?id=' . $postulacion->idpostulacion;
+            return view('sistema.rubro-nuevo', compact('msg', 'rubro', 'titulo')) . '?id=' . $rubro->idrubro;
       }
 }
 

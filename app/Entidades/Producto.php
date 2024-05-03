@@ -16,6 +16,18 @@ class Producto extends Model
 
       protected $hidden = [];
 
+      public function cargarDesdeRequest($request)
+      {
+            $this->idproducto = $request->input('id') != "0" ? $request->input('id') : $this->idproducto;
+            $this->titulo = $request->input('txtTitulo');
+            $this->precio = $request->input('txtPrecio');
+            $this->cantidad = $request->input('txtCantidad');
+            $this->descripcion = $request->input('txtDescripcion');
+            $this->imagen = $request->input('txtImagen');
+            $this->fk_idtipoproducto = $request->input('lstTipoProducto');
+      }
+
+
       public function obtenerTodos()
       {
             $sql = "SELECT
