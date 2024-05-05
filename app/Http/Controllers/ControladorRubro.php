@@ -22,6 +22,36 @@ class ControladorRubro extends Controller
             return view("sistema.rubro-listar", compact("titulo"));
       }
 
+      public function cargarGrilla(Request $request)
+      {
+            $request = $_REQUEST;
+
+            $entidad = new Rubro();
+            $aRubros = $entidad->obtenerFiltrado();
+
+            $data = array();
+            $cont = 0;
+
+            $inicio = $request['start'];
+            $registros_por_pagina = $request['length'];
+
+
+            for ($i = $inicio; $i < count($aRubros) && $cont < $registros_por_pagina; $i++) {
+                  $row = array();
+                  $row[] = "<a href='".$aRubros[$i]->idrubro ."'>" .$aRubros[$i]->nombre . "</a>";
+                  $cont++;
+                  $data[] = $row;
+            }
+
+            $json_data = array(
+                  "draw" => intval($request['draw']),
+                  "recordsTotal" => count($aRubros), //cantidad total de registros sin paginar
+                  "recordsFiltered" => count($aRubros), //cantidad total de registros en la paginacion
+                  "data" => $data,
+            );
+            return json_encode($json_data);
+      }
+
       public function guardar(Request $request)
       {
             try {

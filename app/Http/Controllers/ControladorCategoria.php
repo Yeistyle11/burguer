@@ -22,6 +22,37 @@ class ControladorCategoria extends Controller
             return view("sistema.categoria-listar", compact("titulo"));
       }
 
+      public function cargarGrilla(Request $request)
+      {
+            $request = $_REQUEST;
+
+            $entidad = new Categoria();
+            $aCategoria = $entidad->obtenerFiltrado();
+
+            $data = array();
+            $cont = 0;
+
+            $inicio = $request['start'];
+            $registros_por_pagina = $request['length'];
+
+
+            for ($i = $inicio; $i < count($aCategoria) && $cont < $registros_por_pagina; $i++) {
+                  $row = array();
+                  $row[] = "<a href='".$aCategoria[$i]->idtipoproducto ."'>" .$aCategoria[$i]->nombre . "</a>";
+                  $cont++;
+                  $data[] = $row;
+            }
+
+            $json_data = array(
+                  "draw" => intval($request['draw']),
+                  "recordsTotal" => count($aCategoria), //cantidad total de registros sin paginar
+                  "recordsFiltered" => count($aCategoria), //cantidad total de registros en la paginacion
+                  "data" => $data,
+            );
+            return json_encode($json_data);
+      }
+
+
       public function guardar(Request $request)
       {
             try {

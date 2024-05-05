@@ -22,6 +22,39 @@ class ControladorCliente extends Controller
             return view("sistema.cliente-listar", compact("titulo"));
       }
 
+      public function cargarGrilla(Request $request)
+      {
+            $request = $_REQUEST;
+
+            $entidad = new Cliente();
+            $aClientes = $entidad->obtenerFiltrado();
+
+            $data = array();
+            $cont = 0;
+
+            $inicio = $request['start'];
+            $registros_por_pagina = $request['length'];
+
+
+            for ($i = $inicio; $i < count($aClientes) && $cont < $registros_por_pagina; $i++) {
+                  $row = array();
+                  $row[] = "<a href='".$aClientes[$i]->idcliente ."'>" .$aClientes[$i]->nombre . "</a>";
+                  $row[] = $aClientes[$i]->dni;
+                  $row[] = $aClientes[$i]->correo;
+                  $row[] = $aClientes[$i]->telefono;
+                  $cont++;
+                  $data[] = $row;
+            }
+
+            $json_data = array(
+                  "draw" => intval($request['draw']),
+                  "recordsTotal" => count($aClientes), //cantidad total de registros sin paginar
+                  "recordsFiltered" => count($aClientes), //cantidad total de registros en la paginacion
+                  "data" => $data,
+            );
+            return json_encode($json_data);
+      }
+
       public function guardar(Request $request)
       {
             try {

@@ -101,4 +101,40 @@ class Postulacion extends Model
             ]);
             return $this->idpostulacion = DB::getPdo()->lastInsertId();
       }
+
+      public function obtenerFiltrado()
+      {
+            $request = $_REQUEST;
+            $columns = array(
+                  0 => 'nombre',
+                  1 => 'apellido',
+                  2 => 'whatsapp',
+                  3 => 'correo',
+                  4 => 'linkcv',
+            );
+            $sql = "SELECT
+                        idpostulacion,
+                        nombre,
+                        apellido,
+                        whatsapp,
+                        correo,
+                        linkcv
+                  FROM postulaciones
+                  WHERE 1=1
+            ";
+
+            //Realiza el filtrado
+            if (!empty($request['search']['value'])) {
+                  $sql .= " AND ( nombre LIKE '%" . $request['search']['value'] . "%' ";
+                  $sql .= " OR apellido LIKE '%" . $request['search']['value'] . "%' ";
+                  $sql .= " OR whatsapp LIKE '%" . $request['search']['value'] . "%' )";
+                  $sql .= " OR correo LIKE '%" . $request['search']['value'] . "%' )";
+                  $sql .= " OR linkcv LIKE '%" . $request['search']['value'] . "%' )";
+            }
+            $sql .= " ORDER BY " . $columns[$request['order'][0]['column']] . "   " . $request['order'][0]['dir'];
+
+            $lstRetorno = DB::select($sql);
+
+            return $lstRetorno;
+      }
 }
