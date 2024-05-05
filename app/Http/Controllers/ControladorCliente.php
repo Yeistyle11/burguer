@@ -55,6 +55,13 @@ class ControladorCliente extends Controller
             return json_encode($json_data);
       }
 
+      public function editar($idCliente){
+            $titulo = "Edicion de cliente";
+            $cliente = new Cliente();
+            $cliente->obtenerPorId($idCliente);
+            return view("sistema.cliente-nuevo", compact("titulo", "cliente"));
+      }
+
       public function guardar(Request $request)
       {
             try {

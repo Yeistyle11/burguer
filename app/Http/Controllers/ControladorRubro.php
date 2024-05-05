@@ -52,6 +52,13 @@ class ControladorRubro extends Controller
             return json_encode($json_data);
       }
 
+      public function editar($idRubro){
+            $titulo = "Edicion de rubro";
+            $rubro = new Rubro();
+            $rubro->obtenerPorId($idRubro);
+            return view("sistema.rubro-nuevo", compact("titulo", "rubro"));
+      }
+
       public function guardar(Request $request)
       {
             try {

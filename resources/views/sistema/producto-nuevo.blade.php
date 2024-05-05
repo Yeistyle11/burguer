@@ -41,25 +41,25 @@ if (isset($msg)) {
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"></input>
                         <input type="hidden" id="id" name="id" class="form-control" value="{{$globalId}}" required>
                         <label>Titulo: *</label>
-                        <input type="text" id="txtTitulo" name="txtTitulo" class="form-control" value="" required>
+                        <input type="text" id="txtTitulo" name="txtTitulo" class="form-control" value="{{ $producto->titulo }}" required>
                   </div>
                   <div class="form-group col-lg-6">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"></input>
                         <input type="hidden" id="id" name="id" class="form-control" value="{{$globalId}}" required>
                         <label>Precio: *</label>
-                        <input type="text" id="txtPrecio" name="txtPrecio" class="form-control" value="" required>
+                        <input type="text" id="txtPrecio" name="txtPrecio" class="form-control" value="{{ $producto->precio }}" required>
                   </div>
                   <div class="form-group col-lg-6">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"></input>
                         <input type="hidden" id="id" name="id" class="form-control" value="{{$globalId}}" required>
                         <label>Cantidad: *</label>
-                        <input type="text" id="txtCantidad" name="txtCantidad" class="form-control" value="" required>
+                        <input type="text" id="txtCantidad" name="txtCantidad" class="form-control" value="{{ $producto->cantidad }}" required>
                   </div>
                   <div class="form-group col-lg-6">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"></input>
                         <input type="hidden" id="id" name="id" class="form-control" value="{{$globalId}}" required>
                         <label>Descripcion: </label>
-                        <input type="text" id="txtDescripcion" name="txtDescripcion" class="form-control" value="">
+                        <input type="text" id="txtDescripcion" name="txtDescripcion" class="form-control" value="{{ $producto->descripcion }}">
                   </div>
                   <div class="form-group col-lg-6">
                         <label>Seleccione tipo producto: *</label>
@@ -74,7 +74,7 @@ if (isset($msg)) {
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"></input>
                         <input type="hidden" id="id" name="id" class="form-control" value="{{$globalId}}" required>
                         <label>Imagen: </label>
-                        <input type="file" id="txtImagen" name="txtImagen" class="form-control-file" value="">
+                        <input type="file" id="txtImagen" name="txtImagen" class="form-control-file" value="{{ $producto->imagen }}">
                   </div>
             </div>
 </div>

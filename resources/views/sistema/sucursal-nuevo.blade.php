@@ -41,31 +41,31 @@ if (isset($msg)) {
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"></input>
                         <input type="hidden" id="id" name="id" class="form-control" value="{{$globalId}}" required>
                         <label>Nombre: *</label>
-                        <input type="text" id="txtNombre" name="txtNombre" class="form-control" value="" required>
+                        <input type="text" id="txtNombre" name="txtNombre" class="form-control" value="{{ $sucursal->nombre }}" required>
                   </div>
                   <div class="form-group col-lg-6">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"></input>
                         <input type="hidden" id="id" name="id" class="form-control" value="{{$globalId}}" required>
                         <label>Direccion: </label>
-                        <input type="text" id="txtDireccion" name="txtDireccion" class="form-control" value="">
+                        <input type="text" id="txtDireccion" name="txtDireccion" class="form-control" value="{{ $sucursal->direccion }}">
                   </div>
                   <div class="form-group col-lg-6">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"></input>
                         <input type="hidden" id="id" name="id" class="form-control" value="{{$globalId}}" required>
                         <label>Telefono: </label>
-                        <input type="text" id="txtTelefono" name="txtTelefono" class="form-control" value="">
+                        <input type="text" id="txtTelefono" name="txtTelefono" class="form-control" value="{{ $sucursal->telefono }}">
                   </div>
                   <div class="form-group col-lg-6">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"></input>
                         <input type="hidden" id="id" name="id" class="form-control" value="{{$globalId}}" required>
                         <label>Link mapa: *</label>
-                        <input type="text" id="txtLinkMapa" name="txtLinkMapa" class="form-control" value="" required>
+                        <input type="text" id="txtLinkMapa" name="txtLinkMapa" class="form-control" value="{{ $sucursal->linkmapa }}" required>
                   </div>
                   <div class="form-group col-lg-6">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"></input>
                         <input type="hidden" id="id" name="id" class="form-control" value="{{$globalId}}" required>
                         <label>Horario: </label>
-                        <input type="text" id="txtHorario" name="txtHorario" class="form-control" value="">
+                        <input type="text" id="txtHorario" name="txtHorario" class="form-control" value="{{ $sucursal->horario }}">
                   </div>
 </div>
             

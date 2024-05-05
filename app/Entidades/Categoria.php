@@ -37,7 +37,7 @@ class Categoria extends Model
             $sql = "SELECT
                         idtipoproducto,
                         nombre
-                  FROM tipo_productos WHERE idtipoproductos = $idTipoProducto";
+                  FROM tipo_productos WHERE idtipoproducto = $idTipoProducto";
             $lstRetorno = DB::select($sql);
 
             if (count($lstRetorno) > 0) {

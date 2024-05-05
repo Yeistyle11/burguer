@@ -41,31 +41,31 @@ if (isset($msg)) {
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"></input>
                         <input type="hidden" id="id" name="id" class="form-control" value="{{$globalId}}" required>
                         <label>Nombre: *</label>
-                        <input type="text" id="txtNombre" name="txtNombre" class="form-control" value="" required>
+                        <input type="text" id="txtNombre" name="txtNombre" class="form-control" value="{{ $cliente->nombre }}" required>
                   </div>
                   <div class="form-group col-lg-6">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"></input>
                         <input type="hidden" id="id" name="id" class="form-control" value="{{$globalId}}" required>
                         <label>Telefono: </label>
-                        <input type="text" id="txtTelefono" name="txtTelefono" class="form-control" value="">
+                        <input type="text" id="txtTelefono" name="txtTelefono" class="form-control" value="{{ $cliente->telefono }}">
                   </div>
                   <div class="form-group col-lg-6">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"></input>
                         <input type="hidden" id="id" name="id" class="form-control" value="{{$globalId}}" required>
                         <label>Direccion: </label>
-                        <input type="text" id="txtDireccion" name="txtDireccion" class="form-control" value="">
+                        <input type="text" id="txtDireccion" name="txtDireccion" class="form-control" value="{{ $cliente->direccion }}">
                   </div>
                   <div class="form-group col-lg-6">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"></input>
                         <input type="hidden" id="id" name="id" class="form-control" value="{{$globalId}}" required>
-                        <label>DNI: *</label>
-                        <input type="text" id="txtDni" name="txtDni" class="form-control" value="" required>
+                        <label>Documento: *</label>
+                        <input type="text" id="txtDni" name="txtDni" class="form-control" value="{{ $cliente->dni }}" required>
                   </div>
                   <div class="form-group col-lg-6">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"></input>
                         <input type="hidden" id="id" name="id" class="form-control" value="{{$globalId}}" required>
                         <label>Correo: *</label>
-                        <input type="email" id="txtCorreo" name="txtCorreo" class="form-control" value="" required>
+                        <input type="email" id="txtCorreo" name="txtCorreo" class="form-control" value="{{ $cliente->correo }}" required>
                   </div>
                   <div class="form-group col-lg-6">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"></input>

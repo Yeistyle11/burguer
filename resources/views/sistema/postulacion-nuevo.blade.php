@@ -41,31 +41,31 @@ if (isset($msg)) {
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"></input>
                         <input type="hidden" id="id" name="id" class="form-control" value="{{$globalId}}" required>
                         <label>Nombre: *</label>
-                        <input type="text" id="txtNombre" name="txtNombre" class="form-control" value="" required>
+                        <input type="text" id="txtNombre" name="txtNombre" class="form-control" value="{{ $postulacion->nombre }}" required>
                   </div>
                   <div class="form-group col-lg-6">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"></input>
                         <input type="hidden" id="id" name="id" class="form-control" value="{{$globalId}}" required>
                         <label>Apellido: </label>
-                        <input type="text" id="txtApellido" name="txtApellido" class="form-control" value="">
+                        <input type="text" id="txtApellido" name="txtApellido" class="form-control" value="{{ $postulacion->apellido }}">
                   </div>
                   <div class="form-group col-lg-6">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"></input>
                         <input type="hidden" id="id" name="id" class="form-control" value="{{$globalId}}" required>
                         <label>WhatApp: </label>
-                        <input type="text" id="txtWhatsapp" name="txtWhatsapp" class="form-control" value="">
+                        <input type="text" id="txtWhatsapp" name="txtWhatsapp" class="form-control" value="{{ $postulacion->whatsapp }}">
                   </div>
                   <div class="form-group col-lg-6">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"></input>
                         <input type="hidden" id="id" name="id" class="form-control" value="{{$globalId}}" required>
                         <label>Correo: </label>
-                        <input type="email" id="txtCorreo" name="txtCorreo" class="form-control" value="">
+                        <input type="email" id="txtCorreo" name="txtCorreo" class="form-control" value="{{ $postulacion->correo }}">
                   </div>
                   <div class="form-group col-lg-6">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"></input>
                         <input type="hidden" id="id" name="id" class="form-control" value="{{$globalId}}" required>
                         <label>Link CV: *</label>
-                        <input type="text" id="txtLink" name="txtLink" class="form-control" value="" required>
+                        <input type="text" id="txtLink" name="txtLink" class="form-control" value="{{ $postulacion->linkcv }}" required>
                   </div>
 </div>
             

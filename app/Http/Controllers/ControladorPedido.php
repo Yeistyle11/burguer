@@ -66,6 +66,13 @@ class ControladorPedido extends Controller
             return json_encode($json_data);
       }
 
+      public function editar($idPedido){
+            $titulo = "Edicion de pedido";
+            $pedido = new Pedido();
+            $pedido->obtenerPorId($idPedido);
+            return view("sistema.pedido-nuevo", compact("titulo", "pedido"));
+      }
+
 
       public function guardar(Request $request)
       {

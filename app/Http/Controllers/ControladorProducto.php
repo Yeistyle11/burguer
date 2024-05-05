@@ -60,6 +60,13 @@ class ControladorProducto extends Controller
             return json_encode($json_data);
       }
 
+      public function editar($idProducto){
+            $titulo = "Edicion de producto";
+            $producto = new Producto();
+            $producto->obtenerPorId($idProducto);
+            return view("sistema.producto-nuevo", compact("titulo", "producto"));
+      }
+
       public function guardar(Request $request)
       {
             try {
