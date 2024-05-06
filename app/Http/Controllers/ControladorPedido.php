@@ -24,7 +24,9 @@ class ControladorPedido extends Controller
 
             $estado_pedido = new Estado_Pedido();
             $aEstadoPedidos = $estado_pedido->obtenerTodos();
-            return view("sistema.pedido-nuevo", compact("titulo", "aClientes", "aSucursales", "aEstadoPedidos"));
+
+            $pedido = new Pedido();
+            return view("sistema.pedido-nuevo", compact("titulo", "aClientes", "aSucursales", "aEstadoPedidos", 'pedido'));
       }
 
       public function index(){
@@ -48,7 +50,7 @@ class ControladorPedido extends Controller
 
             for ($i = $inicio; $i < count($aPedidos) && $cont < $registros_por_pagina; $i++) {
                   $row = array();
-                  $row[] = "<a href='".$aPedidos[$i]->idpedido ."'>" .$aPedidos[$i]->fk_idcliente . "</a>";
+                  $row[] = "<a href='/admin/pedido/".$aPedidos[$i]->idpedido ."'>" .$aPedidos[$i]->fk_idcliente . "</a>";
                   $row[] = $aPedidos[$i]->fk_idsucursal;
                   $row[] = $aPedidos[$i]->fk_idestadopedido;
                   $row[] = $aPedidos[$i]->fecha;
@@ -70,7 +72,16 @@ class ControladorPedido extends Controller
             $titulo = "Edicion de pedido";
             $pedido = new Pedido();
             $pedido->obtenerPorId($idPedido);
-            return view("sistema.pedido-nuevo", compact("titulo", "pedido"));
+
+            $cliente = new Cliente();
+            $aClientes = $cliente->obtenerTodos();
+
+            $sucursal = new Sucursal();
+            $aSucursales = $sucursal->obtenerTodos();
+
+            $estado_pedido = new Estado_Pedido();
+            $aEstadoPedidos = $estado_pedido->obtenerTodos();
+            return view("sistema.pedido-nuevo", compact("titulo", "pedido", "aClientes", "aSucursales", "aEstadoPedidos"));
       }
 
 

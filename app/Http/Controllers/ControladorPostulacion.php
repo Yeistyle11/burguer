@@ -13,7 +13,8 @@ class ControladorPostulacion extends Controller
       public function nuevo()
       {
             $titulo = "Nueva postulacion";
-            return view("sistema.postulacion-nuevo", compact("titulo"));
+            $postulacion = new Postulacion();
+            return view("sistema.postulacion-nuevo", compact("titulo", 'postulacion'));
       }
 
       public function index()
@@ -38,7 +39,7 @@ class ControladorPostulacion extends Controller
 
             for ($i = $inicio; $i < count($aPostulaciones) && $cont < $registros_por_pagina; $i++) {
                   $row = array();
-                  $row[] = "<a href='".$aPostulaciones[$i]->idpostulacion ."'>" .$aPostulaciones[$i]->nombre . "</a>";
+                  $row[] = "<a href='/admin/postulacion/".$aPostulaciones[$i]->idpostulacion ."'>" .$aPostulaciones[$i]->nombre . "</a>";
                   $row[] = $aPostulaciones[$i]->apellido;
                   $row[] = $aPostulaciones[$i]->whatsapp;
                   $row[] = $aPostulaciones[$i]->correo;

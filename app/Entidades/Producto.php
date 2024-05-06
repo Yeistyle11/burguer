@@ -55,8 +55,8 @@ class Producto extends Model
                         fk_idtipoproducto
                   FROM productos WHERE idproducto = $idProducto";
             $lstRetorno = DB::select($sql);
-
-            if (count($lstRetorno) > 0) {
+            
+            if ($lstRetorno instanceof Collection && $lstRetorno->isNotEmpty()) {
                   $this->idproducto = $lstRetorno[0]->idproducto;
                   $this->titulo = $lstRetorno[0]->titulo;
                   $this->precio = $lstRetorno[0]->precio;

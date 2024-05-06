@@ -13,7 +13,8 @@ class ControladorRubro extends Controller
       public function nuevo()
       {
             $titulo = "Nuevo rubro";
-            return view("sistema.rubro-nuevo", compact("titulo"));
+            $rubro = new Rubro();
+            return view("sistema.rubro-nuevo", compact("titulo", 'rubro'));
       }
 
       public function index()
@@ -38,7 +39,7 @@ class ControladorRubro extends Controller
 
             for ($i = $inicio; $i < count($aRubros) && $cont < $registros_por_pagina; $i++) {
                   $row = array();
-                  $row[] = "<a href='".$aRubros[$i]->idrubro ."'>" .$aRubros[$i]->nombre . "</a>";
+                  $row[] = "<a href='/admin/rubro/".$aRubros[$i]->idrubro ."'>" .$aRubros[$i]->nombre . "</a>";
                   $cont++;
                   $data[] = $row;
             }

@@ -14,7 +14,8 @@ class ControladorProveedor extends Controller
       public function nuevo()
       {
             $titulo = "Nuevo proveedor";
-            return view("sistema.proveedor-nuevo", compact("titulo"));
+            $proveedor = new Proveedor();
+            return view("sistema.proveedor-nuevo", compact("titulo", 'proveedor'));
       }
 
       public function index()
@@ -39,7 +40,7 @@ class ControladorProveedor extends Controller
 
             for ($i = $inicio; $i < count($aProveedores) && $cont < $registros_por_pagina; $i++) {
                   $row = array();
-                  $row[] = "<a href='".$aProveedores[$i]->idproveedor ."'>" .$aProveedores[$i]->nombre . "</a>";
+                  $row[] = "<a href='/admin/proveedor/".$aProveedores[$i]->idproveedor ."'>" .$aProveedores[$i]->nombre . "</a>";
                   $row[] = $aProveedores[$i]->dni;
                   $row[] = $aProveedores[$i]->telefono;
                   $row[] = $aProveedores[$i]->correo;

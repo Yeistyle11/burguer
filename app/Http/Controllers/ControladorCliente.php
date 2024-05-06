@@ -13,7 +13,8 @@ class ControladorCliente extends Controller
       public function nuevo()
       {
             $titulo = "Nuevo cliente";
-            return view("sistema.cliente-nuevo", compact("titulo"));
+            $cliente = new Cliente();
+            return view("sistema.cliente-nuevo", compact("titulo", 'cliente'));
       }
 
       public function index()
@@ -38,7 +39,7 @@ class ControladorCliente extends Controller
 
             for ($i = $inicio; $i < count($aClientes) && $cont < $registros_por_pagina; $i++) {
                   $row = array();
-                  $row[] = "<a href='".$aClientes[$i]->idcliente ."'>" .$aClientes[$i]->nombre . "</a>";
+                  $row[] = "<a href='/admin/cliente/".$aClientes[$i]->idcliente ."'>" .$aClientes[$i]->nombre . "</a>";
                   $row[] = $aClientes[$i]->dni;
                   $row[] = $aClientes[$i]->correo;
                   $row[] = $aClientes[$i]->telefono;
@@ -71,7 +72,7 @@ class ControladorCliente extends Controller
                   $entidad->cargarDesdeRequest($request);
 
                   //validaciones
-                  if ($entidad->nombre == "" || $entidad->telefono == "" || $entidad->direccion == "" || $entidad->dni == "" || $entidad->correo == "" || $entidad->clave == "") {
+                  if ($entidad->nombre == "" || $entidad->telefono == "" || $entidad->direccion == "" || $entidad->dni == "" || $entidad->correo == "") {
                         $msg["ESTADO"] = MSG_ERROR;
                         $msg["MSG"] = "Complete todos los datos";
                   } else {

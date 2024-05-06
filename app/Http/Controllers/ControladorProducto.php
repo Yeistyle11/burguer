@@ -14,9 +14,11 @@ class ControladorProducto extends Controller
       public function nuevo()
       {
             $titulo = "Nuevo producto";
+            $producto = new Producto();
+
             $categoria = new Categoria();
             $aCategorias = $categoria->obtenerTodos();
-            return view("sistema.producto-nuevo", compact("titulo", "aCategorias"));
+            return view("sistema.producto-nuevo", compact("titulo", "aCategorias", 'producto'));
       }
 
       public function index()
@@ -41,7 +43,7 @@ class ControladorProducto extends Controller
 
             for ($i = $inicio; $i < count($aProductos) && $cont < $registros_por_pagina; $i++) {
                   $row = array();
-                  $row[] = "<a href='".$aProductos[$i]->idproducto ."'>" .$aProductos[$i]->titulo . "</a>";
+                  $row[] = "<a href='/admin/producto/".$aProductos[$i]->idproducto ."'>" .$aProductos[$i]->titulo . "</a>";
                   $row[] = $aProductos[$i]->imagen;
                   $row[] = $aProductos[$i]->precio;
                   $row[] = $aProductos[$i]->cantidad;
@@ -64,7 +66,10 @@ class ControladorProducto extends Controller
             $titulo = "Edicion de producto";
             $producto = new Producto();
             $producto->obtenerPorId($idProducto);
-            return view("sistema.producto-nuevo", compact("titulo", "producto"));
+            
+            $categoria = new Categoria();
+            $aCategorias = $categoria->obtenerTodos();
+            return view("sistema.producto-nuevo", compact("titulo", "producto", "aCategorias"));
       }
 
       public function guardar(Request $request)

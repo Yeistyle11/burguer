@@ -13,7 +13,8 @@ class ControladorCategoria extends Controller
       public function nuevo()
       {
             $titulo = "Nueva categoria";
-            return view("sistema.categoria-nuevo", compact("titulo"));
+            $categoria = new Categoria();
+            return view("sistema.categoria-nuevo", compact("titulo", 'categoria'));
       }
 
       public function index()
@@ -38,7 +39,7 @@ class ControladorCategoria extends Controller
 
             for ($i = $inicio; $i < count($aCategoria) && $cont < $registros_por_pagina; $i++) {
                   $row = array();
-                  $row[] = "<a href='".$aCategoria[$i]->idtipoproducto ."'>" .$aCategoria[$i]->nombre . "</a>";
+                  $row[] = "<a href='/admin/categoria/".$aCategoria[$i]->idtipoproducto ."'>" .$aCategoria[$i]->nombre . "</a>";
                   $cont++;
                   $data[] = $row;
             }
