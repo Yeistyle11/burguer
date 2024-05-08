@@ -107,4 +107,14 @@ class ControladorPostulacion extends Controller
 
             return view('sistema.postulacion-nuevo', compact('msg', 'postulacion', 'titulo')) . '?id=' . $postulacion->idpostulacion;
       }
+
+      public function eliminar(Request $request)
+      {
+            $postulacion = new Postulacion();
+            $postulacion->idpostulacion = $request->input("id");
+            $postulacion->eliminar();
+            $resultado["err"] = EXIT_SUCCESS;
+            $resultado["mensaje"] = "Registro eliminado exitosamente.";
+            return json_encode($resultado);
+      }
 }

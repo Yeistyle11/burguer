@@ -50,9 +50,9 @@ class ControladorPedido extends Controller
 
             for ($i = $inicio; $i < count($aPedidos) && $cont < $registros_por_pagina; $i++) {
                   $row = array();
-                  $row[] = "<a href='/admin/pedido/".$aPedidos[$i]->idpedido ."'>" .$aPedidos[$i]->fk_idcliente . "</a>";
-                  $row[] = $aPedidos[$i]->fk_idsucursal;
-                  $row[] = $aPedidos[$i]->fk_idestadopedido;
+                  $row[] = "<a href='/admin/pedido/".$aPedidos[$i]->idpedido ."'>" .$aPedidos[$i]->cliente . "</a>";
+                  $row[] = $aPedidos[$i]->sucursal;
+                  $row[] = $aPedidos[$i]->estado_del_pedido;
                   $row[] = $aPedidos[$i]->fecha;
                   $row[] = $aPedidos[$i]->total;
                   $cont++;
@@ -125,6 +125,16 @@ class ControladorPedido extends Controller
             $pedido->obtenerPorId($id);
 
             return view('sistema.pedido-nuevo', compact('msg', 'pedido', 'titulo')) . '?id=' . $pedido->idpedido;
+      }
+
+      public function eliminar(Request $request)
+      {
+            $pedido = new Pedido();
+            $pedido->idpedido = $request->input("id");
+            $pedido->eliminar();
+            $resultado["err"] = EXIT_SUCCESS;
+            $resultado["mensaje"] = "Registro eliminado exitosamente.";
+            return json_encode($resultado);
       }
 }
 

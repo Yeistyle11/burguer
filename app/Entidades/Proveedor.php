@@ -66,7 +66,7 @@ class Proveedor extends Model
                   nombre='$this->nombre',
                   dni='$this->dni',
                   telefono='$this->telefono',
-                  correo='$this->correo',
+                  correo='$this->correo'
                   WHERE idproveedor=?";
             $affected = DB::update($sql, [$this->idproveedor]);
       }

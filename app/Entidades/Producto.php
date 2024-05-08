@@ -56,7 +56,7 @@ class Producto extends Model
                   FROM productos WHERE idproducto = $idProducto";
             $lstRetorno = DB::select($sql);
             
-            if ($lstRetorno instanceof Collection && $lstRetorno->isNotEmpty()) {
+            if (count($lstRetorno) > 0) {
                   $this->idproducto = $lstRetorno[0]->idproducto;
                   $this->titulo = $lstRetorno[0]->titulo;
                   $this->precio = $lstRetorno[0]->precio;
@@ -160,5 +160,19 @@ class Producto extends Model
             $lstRetorno = DB::select($sql);
 
             return $lstRetorno;
+      }
+
+      public function existeCategoriaPorProductos($idCategoria)
+      {
+            $sql = "SELECT
+                        titulo,
+                        precio,
+                        cantidad,
+                        descripcion,
+                        imagen,
+                        fk_idtipoproducto
+                  FROM productos WHERE fk_idtipoproducto = $idCategoria";
+            $lstRetorno = DB::select($sql);
+            return (count($lstRetorno) > 0);
       }
 }

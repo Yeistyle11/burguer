@@ -34,6 +34,7 @@ if (isset($msg)) {
       echo '<script>msgShow("' . $msg["MSG"] . '", "' . $msg["ESTADO"] . '")</script>';
 }
 ?>
+<div id = "msg"></div>
 <div class="panel-body">
       <form id="form1" method="POST">
             <div class="row">
@@ -93,5 +94,28 @@ if (isset($msg)) {
                   return false;
             }
       }
+
+      function eliminar() {
+                  $.ajax({
+                        type: "GET",
+                        url: "{{ asset('admin/pedido/eliminar') }}",
+                        data: {
+                              id: globalId
+                        },
+                        async: true,
+                        dataType: "json",
+                        success: function(data) {
+                              if (data.err = "0") {
+                                    msgShow(data.mensaje, "success");
+                                    $("#btnEnviar").hide();
+                                    $("#btnEliminar").hide();
+                                    $('#mdlEliminar').modal('toggle');
+                              } else {
+                                    msgShow(data.mensaje, "danger");
+                                    $('#mdlEliminar').modal('toggle');
+                              }
+                        }
+                  });
+            }
 </script>
 @endsection

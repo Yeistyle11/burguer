@@ -50,7 +50,7 @@ class Pedido extends Model
                         fecha,
                         total
                   FROM pedidos WHERE idpedido = $idPedido";
-            $lstRetorno = DB::statement($sql);
+            $lstRetorno = DB::select($sql);
 
             if (count($lstRetorno) > 0) {
                   $this->idpedido = $lstRetorno[0]->idpedido;
@@ -111,16 +111,21 @@ class Pedido extends Model
                   3 => 'fecha',
                   4 => 'total'
             );
-            $sql = "SELECT
-                        idpedido,
-                        fk_idcliente,
-                        fk_idsucursal,
-                        fk_idestadopedido,
-                        fecha,
-                        total
-                  FROM pedidos
-                  WHERE 1=1
-            ";
+            $sql = "SELECT DISTINCT
+                        A.idpedido,
+                        A.fk_idcliente,
+                        A.fk_idsucursal,
+                        A.fk_idestadopedido,
+                        A.fecha,
+                        A.total,
+                        C.nombre AS cliente,
+                        B.nombre AS sucursal,
+                        D.nombre AS estado_del_pedido
+                  FROM pedidos A
+                  INNER JOIN clientes C ON A.fk_idcliente = C.idcliente
+                  INNER JOIN sucursales B ON A.fk_idsucursal = B.idsucursal
+                  INNER JOIN estado_pedidos D ON A.fk_idestadopedido = D.idestadopedido
+                  WHERE 1=1";
 
             //Realiza el filtrado
             if (!empty($request['search']['value'])) {
@@ -135,5 +140,43 @@ class Pedido extends Model
             $lstRetorno = DB::select($sql);
 
             return $lstRetorno;
+      }
+
+      public function existePedidosPorCliente($idCliente)
+      {
+            $sql = "SELECT
+                        idpedido,
+                        fk_idcliente,
+                        fk_idsucursal,
+                        fk_idestadopedido,
+                        fecha,
+                        total
+                  FROM pedidos WHERE fk_idcliente = $idCliente";
+            $lstRetorno = DB::select($sql);
+            return (count($lstRetorno) > 0);
+      }
+
+      public function existePedidosPorProducto($idProducto)
+      {
+            $sql = "SELECT
+                        idpedidoproducto,
+                        fk_idproducto,
+                        fk_idpedido
+                  FROM pedido_productos WHERE fk_idproducto = $idProducto";
+            $lstRetorno = DB::select($sql);
+            return (count($lstRetorno) > 0);
+      }
+
+      public function existeSucursalPorPedido($idSucursal)
+      {
+            $sql = "SELECT
+                        fk_idcliente,
+                        fk_idsucursal,
+                        fk_idestadopedido,
+                        fecha,
+                        total
+                  FROM pedidos WHERE fk_idsucursal = $idSucursal";
+            $lstRetorno = DB::select($sql);
+            return (count($lstRetorno) > 0);
       }
 }

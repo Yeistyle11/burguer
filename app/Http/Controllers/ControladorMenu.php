@@ -18,7 +18,7 @@ class ControladorMenu extends Controller
         if (Usuario::autenticado() == true) {
             if (!Patente::autorizarOperacion("MENUCONSULTA")) {
                 $codigo = "MENUCONSULTA";
-                $mensaje = "No tiene permisos para la operaci&oacute;n.";
+                $mensaje = "No tiene permisos para la operacion.";
                 return view('sistema.pagina-error', compact('titulo', 'codigo', 'mensaje'));
             } else {
                 return view('sistema.menu-listar', compact('titulo'));
@@ -63,12 +63,22 @@ class ControladorMenu extends Controller
 
     public function nuevo()
     {
-        $titulo = "Nuevo Menú";
-        $menu = new Menu();
-        $array_menu = $menu->obtenerMenuPadre();
-        return view('sistema.menu-nuevo', compact('menu', 'titulo', 'array_menu'));
-
+        if (Usuario::autenticado() == true) {
+            if (!Patente::autorizarOperacion("MENUALTA")) {
+                $codigo = "MENUALTA";
+                $mensaje = "No tiene permisos para la operacion.";
+                return view('sistema.pagina-error', compact('titulo', 'codigo', 'mensaje'));
+            } else {
+                $titulo = "Nuevo Menú";
+                $menu = new Menu();
+                $array_menu = $menu->obtenerMenuPadre();
+                return view('sistema.menu-nuevo', compact('menu', 'titulo', 'array_menu'));
+            }
+        } else {
+                return redirect('admin/login');
+        }
     }
+
 
     
     public function editar($id)

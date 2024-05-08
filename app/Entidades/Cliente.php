@@ -91,12 +91,12 @@ class Cliente extends Model
       public function insertar()
       {
             $sql = "INSERT INTO clientes (
-                  nombre,
-                  telefono,
-                  direccion,
-                  dni,
-                  correo,
-                  clave
+                        nombre,
+                        telefono,
+                        direccion,
+                        dni,
+                        correo,
+                        clave
                   ) VALUES (?, ?, ?, ?, ?, ?);";
             $result = DB::insert($sql, [
                   $this->nombre,

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Entidades\Categoria;
+use App\Entidades\Producto;
+use App\Entidades\Sistema\Usuario;
+use App\Entidades\Sistema\Patente;
 use Illuminate\Http\Request;
 
 require app_path() . '/start/constants.php';
@@ -100,5 +103,35 @@ class ControladorCategoria extends Controller
             $categoria->obtenerPorId($id);
 
             return view('sistema.categoria-nuevo', compact('msg', 'categoria', 'titulo')) . '?id=' . $categoria->idtipoproducto;
+      }
+
+      public function eliminar(Request $request)
+      {
+            if (Usuario::autenticado() == true) {
+                  if (!Patente::autorizarOperacion("CLIENTEELIMINAR")) {
+                        $resultado["err"] = EXIT_FAILURE;
+                        $resultado["mensaje"] = "No tiene permisos para la operacion.";
+                  } else {
+                        $idCategoria = $request->input('id');
+                        $producto = new Producto();
+
+                        //Si el cliente tiene algun pedido asociado no puede eliminar
+                        if ($producto->existeCategoriaPorProductos($idCategoria)) {
+                              $resultado["err"] = EXIT_FAILURE;
+                              $resultado["mensaje"] = "No se puede eliminar una categoria con productos asociados.";
+                        } else {
+                              //Sino si
+                              $categoria = new Categoria();
+                              $categoria->idpedidoproducto = $idCategoria;
+                              $categoria->eliminar();
+                              $resultado["err"] = EXIT_SUCCESS;
+                              $resultado["mensaje"] = "Registro eliminado exitosamente.";
+                        }
+                  }
+            } else {
+                  $resultado["err"] = EXIT_FAILURE;
+                  $resultado["mensaje"] = "Usuario no autenticado.";
+            }
+            return json_encode($resultado);
       }
 }

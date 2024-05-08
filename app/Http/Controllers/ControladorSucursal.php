@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Entidades\Sucursal;
+use App\Entidades\Pedido;
+use App\Entidades\Sistema\Usuario;
+use App\Entidades\Sistema\Patente;
 use Illuminate\Http\Request;
 
 require app_path() . '/start/constants.php';
@@ -104,5 +107,35 @@ class ControladorSucursal extends Controller
             $sucursal->obtenerPorId($id);
 
             return view('sistema.sucursal-nuevo', compact('msg', 'sucursal', 'titulo')) . '?id=' . $sucursal->idsucursal;
+      }
+
+      public function eliminar(Request $request)
+      {
+            if (Usuario::autenticado() == true) {
+                  if (!Patente::autorizarOperacion("CLIENTEELIMINAR")) {
+                        $resultado["err"] = EXIT_FAILURE;
+                        $resultado["mensaje"] = "No tiene permisos para la operacion.";
+                  } else {
+                        $idSucursal = $request->input('id');
+                        $pedido = new Pedido();
+
+                        //Si el cliente tiene algun pedido asociado no puede eliminar
+                        if ($pedido->existeSucursalPorPedido($idSucursal)) {
+                              $resultado["err"] = EXIT_FAILURE;
+                              $resultado["mensaje"] = "No se puede eliminar una sucursal con pedidos asociados.";
+                        } else {
+                              //Sino si
+                              $sucursal = new Sucursal();
+                              $sucursal->idsucursal = $idSucursal;
+                              $sucursal->eliminar();
+                              $resultado["err"] = EXIT_SUCCESS;
+                              $resultado["mensaje"] = "Registro eliminado exitosamente.";
+                        }
+                  }
+            } else {
+                  $resultado["err"] = EXIT_FAILURE;
+                  $resultado["mensaje"] = "Usuario no autenticado.";
+            }
+            return json_encode($resultado);
       }
 }
