@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Entidades\Producto;
 use App\Entidades\Pedido;
 use App\Entidades\Categoria;
+use App\Entidades\Sistema\Usuario;
+use App\Entidades\Sistema\Patente;
 
 require app_path() . '/start/constants.php';
 
@@ -14,18 +16,38 @@ class ControladorProducto extends Controller
 
       public function nuevo()
       {
-            $titulo = "Nuevo producto";
-            $producto = new Producto();
+            $titulo = "Nuevo Producto";
+            if (Usuario::autenticado() == true) {
+                  if (!Patente::autorizarOperacion("CLIENTEALTA")) {
+                        $codigo = "CLIENTEALTA";
+                        $mensaje = "No tiene permisos para la operacion.";
+                        return view('sistema.pagina-error', compact('titulo', 'codigo', 'mensaje'));
+                  } else {
+                        $producto = new Producto();
 
-            $categoria = new Categoria();
-            $aCategorias = $categoria->obtenerTodos();
-            return view("sistema.producto-nuevo", compact("titulo", "aCategorias", 'producto'));
+                        $categoria = new Categoria();
+                        $aCategorias = $categoria->obtenerTodos();
+                        return view("sistema.producto-nuevo", compact("titulo", "aCategorias", 'producto'));
+                  }
+            } else {
+                  return redirect('admin/login');
+            }
       }
 
       public function index()
       {
             $titulo = "Listado de productos";
-            return view("sistema.producto-listar", compact("titulo"));
+            if (Usuario::autenticado() == true) {
+                  if (!Patente::autorizarOperacion("MENUCONSULTA")) {
+                        $codigo = "MENUCONSULTA";
+                        $mensaje = "No tiene permisos para la operacion.";
+                        return view('sistema.pagina-error', compact('titulo', 'codigo', 'mensaje'));
+                  } else {
+                        return view("sistema.producto-listar", compact("titulo"));
+                  }
+            } else {
+                  return redirect('admin/login');
+            }
       }
 
       public function cargarGrilla(Request $request)
@@ -44,7 +66,7 @@ class ControladorProducto extends Controller
 
             for ($i = $inicio; $i < count($aProductos) && $cont < $registros_por_pagina; $i++) {
                   $row = array();
-                  $row[] = "<a href='/admin/producto/".$aProductos[$i]->idproducto ."'>" .$aProductos[$i]->titulo . "</a>";
+                  $row[] = "<a href='/admin/producto/" . $aProductos[$i]->idproducto . "'>" . $aProductos[$i]->titulo . "</a>";
                   $row[] = $aProductos[$i]->imagen;
                   $row[] = $aProductos[$i]->precio;
                   $row[] = $aProductos[$i]->cantidad;
@@ -63,14 +85,26 @@ class ControladorProducto extends Controller
             return json_encode($json_data);
       }
 
-      public function editar($idProducto){
+      public function editar($idProducto)
+      {
             $titulo = "Edicion de producto";
-            $producto = new Producto();
-            $producto->obtenerPorId($idProducto);
-            
-            $categoria = new Categoria();
-            $aCategorias = $categoria->obtenerTodos();
-            return view("sistema.producto-nuevo", compact("titulo", "producto", "aCategorias"));
+
+            if (Usuario::autenticado() == true) {
+                  if (!Patente::autorizarOperacion("CLIENTEEDITAR")) {
+                        $codigo = "CLIENTEEDITAR";
+                        $mensaje = "No tiene permisos para la operacion.";
+                        return view('sistema.pagina-error', compact('titulo', 'codigo', 'mensaje'));
+                  } else {
+                        $producto = new Producto();
+                        $producto->obtenerPorId($idProducto);
+
+                        $categoria = new Categoria();
+                        $aCategorias = $categoria->obtenerTodos();
+                        return view("sistema.producto-nuevo", compact("titulo", "producto", "aCategorias"));
+                  }
+            } else {
+                  return redirect('admin/login');
+            }
       }
 
       public function guardar(Request $request)
@@ -120,20 +154,31 @@ class ControladorProducto extends Controller
 
       public function eliminar(Request $request)
       {
-            $idProducto = $request->input('id');
-            $pedido = new Pedido();
+            if (Usuario::autenticado() == true) {
+                  if (!Patente::autorizarOperacion("CLIENTEELIMINAR")) {
+                        $resultado["err"] = EXIT_FAILURE;
+                        $resultado["mensaje"] = "No tiene permisos para la operacion.";
+                  } else {
+                        $idProducto = $request->input('id');
+                        $pedido = new Pedido();
 
-            //Si el cliente tiene algun pedido asociado no puede eliminar
-            if($pedido->existePedidosPorProducto($idProducto)){
-                  $resultado["err"] = EXIT_FAILURE;
-                  $resultado["mensaje"] = "No se puede eliminar un producto con pedidos asociados.";
+
+                        //Si el cliente tiene algun pedido asociado no puede eliminar
+                        if ($pedido->existePedidosPorProducto($idProducto)) {
+                              $resultado["err"] = EXIT_FAILURE;
+                              $resultado["mensaje"] = "No se puede eliminar un cliente con pedidos asociados.";
+                        } else {
+                              //Sino si
+                              $producto = new Producto();
+                              $producto->idproducto = $idProducto;
+                              $producto->eliminar();
+                              $resultado["err"] = EXIT_SUCCESS;
+                              $resultado["mensaje"] = "Registro eliminado exitosamente.";
+                        }
+                  }
             } else {
-                  //Sino si
-                  $producto = new Producto();
-                  $producto->idproducto = $idProducto;
-                  $producto->eliminar();
-                  $resultado["err"] = EXIT_SUCCESS;
-                  $resultado["mensaje"] = "Registro eliminado exitosamente.";
+                  $resultado["err"] = EXIT_FAILURE;
+                  $resultado["mensaje"] = "Usuario no autenticado.";
             }
             return json_encode($resultado);
       }

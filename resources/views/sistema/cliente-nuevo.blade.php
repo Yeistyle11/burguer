@@ -23,7 +23,7 @@
 </ol>
 <script>
       function fsalir() {
-            location.href = "/admin/sistema/menu";
+            location.href = "/admin/clientes";
       }
 </script>
 @endsection

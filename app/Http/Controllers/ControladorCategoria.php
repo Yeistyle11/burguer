@@ -16,14 +16,34 @@ class ControladorCategoria extends Controller
       public function nuevo()
       {
             $titulo = "Nueva categoria";
-            $categoria = new Categoria();
-            return view("sistema.categoria-nuevo", compact("titulo", 'categoria'));
+            if (Usuario::autenticado() == true) {
+                  if (!Patente::autorizarOperacion("CLIENTEALTA")) {
+                        $codigo = "CLIENTEALTA";
+                        $mensaje = "No tiene permisos para la operacion.";
+                        return view('sistema.pagina-error', compact('titulo', 'codigo', 'mensaje'));
+                  } else {
+                        $categoria = new Categoria();
+                        return view("sistema.categoria-nuevo", compact("titulo", 'categoria'));
+                  }
+            } else {
+                  return redirect('admin/login');
+            }
       }
 
       public function index()
       {
             $titulo = "Listado de categorias";
-            return view("sistema.categoria-listar", compact("titulo"));
+            if (Usuario::autenticado() == true) {
+                  if (!Patente::autorizarOperacion("MENUCONSULTA")) {
+                        $codigo = "MENUCONSULTA";
+                        $mensaje = "No tiene permisos para la operacion.";
+                        return view('sistema.pagina-error', compact('titulo', 'codigo', 'mensaje'));
+                  } else {
+                        return view("sistema.categoria-listar", compact("titulo"));
+                  }
+            } else {
+                  return redirect('admin/login');
+            }
       }
 
       public function cargarGrilla(Request $request)
@@ -42,7 +62,7 @@ class ControladorCategoria extends Controller
 
             for ($i = $inicio; $i < count($aCategoria) && $cont < $registros_por_pagina; $i++) {
                   $row = array();
-                  $row[] = "<a href='/admin/categoria/".$aCategoria[$i]->idtipoproducto ."'>" .$aCategoria[$i]->nombre . "</a>";
+                  $row[] = "<a href='/admin/categoria/" . $aCategoria[$i]->idtipoproducto . "'>" . $aCategoria[$i]->nombre . "</a>";
                   $cont++;
                   $data[] = $row;
             }
@@ -56,11 +76,22 @@ class ControladorCategoria extends Controller
             return json_encode($json_data);
       }
 
-      public function editar($idTipoProducto){
+      public function editar($idTipoProducto)
+      {
             $titulo = "Edicion de categoria";
-            $categoria = new Categoria();
-            $categoria->obtenerPorId($idTipoProducto);
-            return view("sistema.categoria-nuevo", compact("titulo", "categoria"));
+            if (Usuario::autenticado() == true) {
+                  if (!Patente::autorizarOperacion("CLIENTEEDITAR")) {
+                        $codigo = "CLIENTEEDITAR";
+                        $mensaje = "No tiene permisos para la operacion.";
+                        return view('sistema.pagina-error', compact('titulo', 'codigo', 'mensaje'));
+                  } else {
+                        $categoria = new Categoria();
+                        $categoria->obtenerPorId($idTipoProducto);
+                        return view("sistema.categoria-nuevo", compact("titulo", "categoria"));
+                  }
+            } else {
+                  return redirect('admin/login');
+            }
       }
 
       public function guardar(Request $request)

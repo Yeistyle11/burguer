@@ -9,7 +9,7 @@
 @section('breadcrumb')
 <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="/admin/home">Inicio</a></li>
-      <li class="breadcrumb-item"><a href="/admin/sucursales">Sucursales</a></li>
+      <li class="breadcrumb-item"><a href="/admin/categorias">Categorias</a></li>
       <li class="breadcrumb-item active">Modificar</li>
 </ol>
 <ol class="toolbar">
@@ -23,7 +23,7 @@
 </ol>
 <script>
       function fsalir() {
-            location.href = "/admin/sistema/menu";
+            location.href = "/admin/categorias";
       }
 </script>
 @endsection

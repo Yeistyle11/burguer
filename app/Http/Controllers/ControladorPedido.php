@@ -6,6 +6,8 @@ use App\Entidades\Cliente;
 use App\Entidades\Pedido;
 use App\Entidades\Estado_pedido;
 use App\Entidades\Sucursal;
+use App\Entidades\Sistema\Usuario;
+use App\Entidades\Sistema\Patente;
 use Illuminate\Http\Request;
 
 require app_path() . '/start/constants.php';
@@ -16,22 +18,43 @@ class ControladorPedido extends Controller
       public function nuevo()
       {
             $titulo = "Nuevo pedido";
-            $cliente = new Cliente();
-            $aClientes = $cliente->obtenerTodos();
+            if (Usuario::autenticado() == true) {
+                  if (!Patente::autorizarOperacion("CLIENTEALTA")) {
+                        $codigo = "CLIENTEALTA";
+                        $mensaje = "No tiene permisos para la operacion.";
+                        return view('sistema.pagina-error', compact('titulo', 'codigo', 'mensaje'));
+                  } else {
+                        $cliente = new Cliente();
+                        $aClientes = $cliente->obtenerTodos();
 
-            $sucursal = new Sucursal();
-            $aSucursales = $sucursal->obtenerTodos();
+                        $sucursal = new Sucursal();
+                        $aSucursales = $sucursal->obtenerTodos();
 
-            $estado_pedido = new Estado_Pedido();
-            $aEstadoPedidos = $estado_pedido->obtenerTodos();
+                        $estado_pedido = new Estado_Pedido();
+                        $aEstadoPedidos = $estado_pedido->obtenerTodos();
 
-            $pedido = new Pedido();
-            return view("sistema.pedido-nuevo", compact("titulo", "aClientes", "aSucursales", "aEstadoPedidos", 'pedido'));
+                        $pedido = new Pedido();
+                        return view("sistema.pedido-nuevo", compact("titulo", "aClientes", "aSucursales", "aEstadoPedidos", 'pedido'));
+                  }
+            } else {
+                  return redirect('admin/login');
+            }
       }
 
-      public function index(){
+      public function index()
+      {
             $titulo = "Listado de pedidos";
-            return view("sistema.pedido-listar", compact("titulo"));
+            if (Usuario::autenticado() == true) {
+                  if (!Patente::autorizarOperacion("MENUCONSULTA")) {
+                        $codigo = "MENUCONSULTA";
+                        $mensaje = "No tiene permisos para la operacion.";
+                        return view('sistema.pagina-error', compact('titulo', 'codigo', 'mensaje'));
+                  } else {
+                        return view("sistema.pedido-listar", compact("titulo"));
+                  }
+            } else {
+                  return redirect('admin/login');
+            }
       }
 
       public function cargarGrilla(Request $request)
@@ -50,7 +73,7 @@ class ControladorPedido extends Controller
 
             for ($i = $inicio; $i < count($aPedidos) && $cont < $registros_por_pagina; $i++) {
                   $row = array();
-                  $row[] = "<a href='/admin/pedido/".$aPedidos[$i]->idpedido ."'>" .$aPedidos[$i]->cliente . "</a>";
+                  $row[] = "<a href='/admin/pedido/" . $aPedidos[$i]->idpedido . "'>" . $aPedidos[$i]->cliente . "</a>";
                   $row[] = $aPedidos[$i]->sucursal;
                   $row[] = $aPedidos[$i]->estado_del_pedido;
                   $row[] = $aPedidos[$i]->fecha;
@@ -68,20 +91,32 @@ class ControladorPedido extends Controller
             return json_encode($json_data);
       }
 
-      public function editar($idPedido){
-            $titulo = "Edicion de pedido";
-            $pedido = new Pedido();
-            $pedido->obtenerPorId($idPedido);
+      public function editar($idPedido)
+      {
+            $titulo = "Edicion de cliente";
 
-            $cliente = new Cliente();
-            $aClientes = $cliente->obtenerTodos();
+            if (Usuario::autenticado() == true) {
+                  if (!Patente::autorizarOperacion("CLIENTEEDITAR")) {
+                        $codigo = "CLIENTEEDITAR";
+                        $mensaje = "No tiene permisos para la operacion.";
+                        return view('sistema.pagina-error', compact('titulo', 'codigo', 'mensaje'));
+                  } else {
+                        $pedido = new Pedido();
+                        $pedido->obtenerPorId($idPedido);
 
-            $sucursal = new Sucursal();
-            $aSucursales = $sucursal->obtenerTodos();
+                        $cliente = new Cliente();
+                        $aClientes = $cliente->obtenerTodos();
 
-            $estado_pedido = new Estado_Pedido();
-            $aEstadoPedidos = $estado_pedido->obtenerTodos();
-            return view("sistema.pedido-nuevo", compact("titulo", "pedido", "aClientes", "aSucursales", "aEstadoPedidos"));
+                        $sucursal = new Sucursal();
+                        $aSucursales = $sucursal->obtenerTodos();
+
+                        $estado_pedido = new Estado_Pedido();
+                        $aEstadoPedidos = $estado_pedido->obtenerTodos();
+                        return view("sistema.pedido-nuevo", compact("titulo", "pedido", "aClientes", "aSucursales", "aEstadoPedidos"));
+                  }
+            } else {
+                  return redirect('admin/login');
+            }
       }
 
 
@@ -92,28 +127,28 @@ class ControladorPedido extends Controller
                   $titulo = "Modificar pedido";
                   $entidad = new Pedido();
                   $entidad->cargarDesdeRequest($request);
-      
+
                   //validaciones
                   if ($entidad->fk_idcliente == "" || $entidad->fk_idsucursal == "" || $entidad->fk_idestadopedido == "" || $entidad->fecha == "" || $entidad->total == "") {
-                      $msg["ESTADO"] = MSG_ERROR;
-                      $msg["MSG"] = "Complete todos los datos";
+                        $msg["ESTADO"] = MSG_ERROR;
+                        $msg["MSG"] = "Complete todos los datos";
                   } else {
-                      if ($_POST["id"] > 0) {
-                          //Es actualizacion
-                          $entidad->guardar();
-      
-                          $msg["ESTADO"] = MSG_SUCCESS;
-                          $msg["MSG"] = OKINSERT;
-                      } else {
-                          //Es nuevo
-                          $entidad->insertar();
-      
-                          $msg["ESTADO"] = MSG_SUCCESS;
-                          $msg["MSG"] = OKINSERT;
-                      }
+                        if ($_POST["id"] > 0) {
+                              //Es actualizacion
+                              $entidad->guardar();
 
-                      $_POST["id"] = $entidad->idpedido;
-                      return view('sistema.pedido-listar', compact('titulo', 'msg'));
+                              $msg["ESTADO"] = MSG_SUCCESS;
+                              $msg["MSG"] = OKINSERT;
+                        } else {
+                              //Es nuevo
+                              $entidad->insertar();
+
+                              $msg["ESTADO"] = MSG_SUCCESS;
+                              $msg["MSG"] = OKINSERT;
+                        }
+
+                        $_POST["id"] = $entidad->idpedido;
+                        return view('sistema.pedido-listar', compact('titulo', 'msg'));
                   }
             } catch (Exception $e) {
                   $msg["ESTADO"] = MSG_ERROR;
@@ -129,13 +164,21 @@ class ControladorPedido extends Controller
 
       public function eliminar(Request $request)
       {
-            $pedido = new Pedido();
-            $pedido->idpedido = $request->input("id");
-            $pedido->eliminar();
-            $resultado["err"] = EXIT_SUCCESS;
-            $resultado["mensaje"] = "Registro eliminado exitosamente.";
+            if (Usuario::autenticado() == true) {
+                  if (!Patente::autorizarOperacion("CLIENTEELIMINAR")) {
+                        $resultado["err"] = EXIT_FAILURE;
+                        $resultado["mensaje"] = "No tiene permisos para la operacion.";
+                  } else {
+                        $pedido = new Pedido();
+                        $pedido->idpedido = $request->input("id");
+                        $pedido->eliminar();
+                        $resultado["err"] = EXIT_SUCCESS;
+                        $resultado["mensaje"] = "Registro eliminado exitosamente.";
+                  }
+            } else {
+                  $resultado["err"] = EXIT_FAILURE;
+                  $resultado["mensaje"] = "Usuario no autenticado.";
+            }
             return json_encode($resultado);
       }
 }
-
-?>
