@@ -135,14 +135,16 @@ class Producto extends Model
                   5 => 'fk_idtipoproducto'
             );
             $sql = "SELECT DISTINCT
-                        idproducto,
-                        titulo,
-                        precio,
-                        cantidad,
-                        descripcion,
-                        imagen,
-                        fk_idtipoproducto
-                  FROM productos
+                        A.idproducto,
+                        A.titulo,
+                        A.precio,
+                        A.cantidad,
+                        A.descripcion,
+                        A.imagen,
+                        A.fk_idtipoproducto,
+                        B.nombre AS tipo_productos
+                  FROM productos A
+                  INNER JOIN tipo_productos B ON A.fk_idtipoproducto
                   WHERE 1=1
             ";
 

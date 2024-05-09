@@ -66,12 +66,12 @@ class ControladorProducto extends Controller
 
             for ($i = $inicio; $i < count($aProductos) && $cont < $registros_por_pagina; $i++) {
                   $row = array();
-                  $row[] = "<a href='/admin/producto/" . $aProductos[$i]->idproducto . "'>" . $aProductos[$i]->titulo . "</a>";
                   $row[] = $aProductos[$i]->imagen;
+                  $row[] = "<a href='/admin/producto/" . $aProductos[$i]->idproducto . "'>" . $aProductos[$i]->titulo . "</a>";
                   $row[] = $aProductos[$i]->precio;
                   $row[] = $aProductos[$i]->cantidad;
                   $row[] = $aProductos[$i]->descripcion;
-                  $row[] = $aProductos[$i]->fk_idtipoproducto;
+                  $row[] = $aProductos[$i]->tipo_productos;
                   $cont++;
                   $data[] = $row;
             }
