@@ -2,8 +2,8 @@
 @section('titulo', $titulo)
 @section('scripts')
 <script>
-      globalId = '<?php echo isset($categoria->idcategoria) && $categoria->idcategoria > 0 ? $categoria->idcategoria : 0; ?>';
-      <?php $globalId = isset($categoria->idcategoria) ? $categoria->idcategoria : "0"; ?>
+      globalId = '<?php echo isset($categoria->idtipoproducto) && $categoria->idtipoproducto > 0 ? $categoria->idtipoproducto : 0; ?>';
+      <?php $globalId = isset($categoria->idtipoproducto) ? $categoria->idtipoproducto : "0"; ?>
 </script>
 @endsection
 @section('breadcrumb')

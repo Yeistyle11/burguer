@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Entidades\Cliente;
+use App\Entidades\Rubro;
 use App\Entidades\Proveedor;
 use Illuminate\Http\Request;
+use App\Entidades\Sistema\Usuario;
+use App\Entidades\Sistema\Patente;
 
 require app_path() . '/start/constants.php';
 
@@ -14,14 +16,37 @@ class ControladorProveedor extends Controller
       public function nuevo()
       {
             $titulo = "Nuevo proveedor";
-            $proveedor = new Proveedor();
-            return view("sistema.proveedor-nuevo", compact("titulo", 'proveedor'));
+            if (Usuario::autenticado() == true) {
+                  if (!Patente::autorizarOperacion("PROVEEDORALTA")) {
+                        $codigo = "PROVEEDORALTA";
+                        $mensaje = "No tiene permisos para la operacion.";
+                        return view('sistema.pagina-error', compact('titulo', 'codigo', 'mensaje'));
+                  } else {
+                        $proveedor = new Proveedor();
+
+                        $rubro = new Rubro();
+                        $aRubros = $rubro->obtenerTodos();
+                        return view("sistema.proveedor-nuevo", compact("titulo", "aRubros", 'proveedor'));
+                  }
+            } else {
+                  return redirect('admin/login');
+            }
       }
 
       public function index()
       {
             $titulo = "Listado de proveedores";
-            return view("sistema.proveedor-listar", compact("titulo"));
+            if (Usuario::autenticado() == true) {
+                  if (!Patente::autorizarOperacion("PROVEEDORCONSULTA")) {
+                        $codigo = "PROVEEDORCONSULTA";
+                        $mensaje = "No tiene permisos para la operacion.";
+                        return view('sistema.pagina-error', compact('titulo', 'codigo', 'mensaje'));
+                  } else {
+                        return view("sistema.proveedor-listar", compact("titulo"));
+                  }
+            } else {
+                  return redirect('admin/login');
+            }
       }
 
       public function cargarGrilla(Request $request)
@@ -44,6 +69,7 @@ class ControladorProveedor extends Controller
                   $row[] = $aProveedores[$i]->dni;
                   $row[] = $aProveedores[$i]->telefono;
                   $row[] = $aProveedores[$i]->correo;
+                  $row[] = $aProveedores[$i]->rubros;
                   $cont++;
                   $data[] = $row;
             }
@@ -59,9 +85,22 @@ class ControladorProveedor extends Controller
 
       public function editar($idProveedor){
             $titulo = "Edicion de proveedor";
-            $proveedor = new Proveedor();
-            $proveedor->obtenerPorId($idProveedor);
-            return view("sistema.proveedor-nuevo", compact("titulo", "proveedor"));
+            if (Usuario::autenticado() == true) {
+                  if (!Patente::autorizarOperacion("PROVEEDOREDITAR")) {
+                        $codigo = "PROVEEDOREDITAR";
+                        $mensaje = "No tiene permisos para la operacion.";
+                        return view('sistema.pagina-error', compact('titulo', 'codigo', 'mensaje'));
+                  } else {
+                        $proveedor = new Proveedor();
+                        $proveedor->obtenerPorId($idProveedor);
+
+                        $rubro = new Rubro();
+                        $aRubros = $rubro->obtenerTodos();
+                        return view("sistema.proveedor-nuevo", compact("titulo", "proveedor", "aRubros"));
+                  }
+            } else {
+                  return redirect('admin/login');
+            }
       }
 
       public function guardar(Request $request)
@@ -73,7 +112,7 @@ class ControladorProveedor extends Controller
                   $entidad->cargarDesdeRequest($request);
 
                   //validaciones
-                  if ($entidad->nombre == "" || $entidad->dni == "") {
+                  if ($entidad->nombre == "" || $entidad->dni == "" || $entidad->fk_idrubro == "") {
                         $msg["ESTADO"] = MSG_ERROR;
                         $msg["MSG"] = "Complete todos los datos";
                   } else {
@@ -103,6 +142,29 @@ class ControladorProveedor extends Controller
             $proveedor = new Proveedor();
             $proveedor->obtenerPorId($id);
 
-            return view('sistema.proveedor-nuevo', compact('msg', 'proveedor', 'titulo')) . '?id=' . $proveedor->idproveedor;
+            $rubro = new Rubro();
+            $aRubros = $rubro->obtenerTodos();
+
+            return view('sistema.proveedor-nuevo', compact('msg', 'proveedor', 'titulo', 'aRubros')) . '?id=' . $proveedor->idproveedor;
+      }
+
+      public function eliminar(Request $request)
+      {
+            if (Usuario::autenticado() == true) {
+                  if (!Patente::autorizarOperacion("PROVEEDORBAJA")) {
+                        $resultado["err"] = EXIT_FAILURE;
+                        $resultado["mensaje"] = "No tiene permisos para la operacion.";
+                  } else {
+                        $proveedor = new Proveedor();
+                        $proveedor->idproveedor = $request->input("id");
+                        $proveedor->eliminar();
+                        $resultado["err"] = EXIT_SUCCESS;
+                        $resultado["mensaje"] = "Registro eliminado exitosamente.";
+                  }
+            } else {
+                  $resultado["err"] = EXIT_FAILURE;
+                  $resultado["mensaje"] = "Usuario no autenticado.";
+            }
+            return json_encode($resultado);
       }
 }

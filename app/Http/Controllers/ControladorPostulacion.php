@@ -16,8 +16,8 @@ class ControladorPostulacion extends Controller
       {
             $titulo = "Nueva postulacion";
             if (Usuario::autenticado() == true) {
-                  if (!Patente::autorizarOperacion("CLIENTEALTA")) {
-                        $codigo = "CLIENTEALTA";
+                  if (!Patente::autorizarOperacion("POSTULANTEALTA")) {
+                        $codigo = "POSTULANTEALTA";
                         $mensaje = "No tiene permisos para la operacion.";
                         return view('sistema.pagina-error', compact('titulo', 'codigo', 'mensaje'));
                   } else {
@@ -33,8 +33,8 @@ class ControladorPostulacion extends Controller
       {
             $titulo = "Listado de postulaciones";
             if (Usuario::autenticado() == true) {
-                  if (!Patente::autorizarOperacion("MENUCONSULTA")) {
-                        $codigo = "MENUCONSULTA";
+                  if (!Patente::autorizarOperacion("POSTULANTECONSULTA")) {
+                        $codigo = "POSTULANTECONSULTA";
                         $mensaje = "No tiene permisos para la operacion.";
                         return view('sistema.pagina-error', compact('titulo', 'codigo', 'mensaje'));
                   } else {
@@ -84,8 +84,8 @@ class ControladorPostulacion extends Controller
             $titulo = "Edicion de postulacion";
 
             if (Usuario::autenticado() == true) {
-                  if (!Patente::autorizarOperacion("CLIENTEEDITAR")) {
-                        $codigo = "CLIENTEEDITAR";
+                  if (!Patente::autorizarOperacion("POSTULANTEEDITAR")) {
+                        $codigo = "POSTULANTEEDITAR";
                         $mensaje = "No tiene permisos para la operacion.";
                         return view('sistema.pagina-error', compact('titulo', 'codigo', 'mensaje'));
                   } else {
@@ -144,7 +144,7 @@ class ControladorPostulacion extends Controller
       public function eliminar(Request $request)
       {
             if (Usuario::autenticado() == true) {
-                  if (!Patente::autorizarOperacion("CLIENTEELIMINAR")) {
+                  if (!Patente::autorizarOperacion("POSTULANTEBAJA")) {
                         $resultado["err"] = EXIT_FAILURE;
                         $resultado["mensaje"] = "No tiene permisos para la operacion.";
                   } else {

@@ -34,6 +34,7 @@ if (isset($msg)) {
       echo '<script>msgShow("' . $msg["MSG"] . '", "' . $msg["ESTADO"] . '")</script>';
 }
 ?>
+<div id = "msg"></div>
 <div class="panel-body">
       <form id="form1" method="POST">
             <div class="row">
@@ -61,6 +62,15 @@ if (isset($msg)) {
                         <label>Correo: </label>
                         <input type="email" id="txtCorreo" name="txtCorreo" class="form-control" value="{{ $proveedor->correo }}">
                   </div>
+                  <div class="form-group col-lg-6">
+                        <label>Seleccione tipo de rubro: *</label>
+                        <select class="form-control" id="lstRubro" name="lstRubro" required>
+                              <option value="" disabled selected>Seleccionar</option>
+                              @foreach($aRubros as $rubro)
+                              <option value="{{ $rubro->idrubro }}">{{ $rubro->nombre }}</option>
+                              @endforeach
+                        </select>
+                  </div>
 
             </div>
 
@@ -77,6 +87,29 @@ if (isset($msg)) {
                         msgShow("Corrija los errores e intente nuevamente.", "danger");
                         return false;
                   }
+            }
+
+            function eliminar() {
+                  $.ajax({
+                        type: "GET",
+                        url: "{{ asset('admin/proveedor/eliminar') }}",
+                        data: {
+                              id: globalId
+                        },
+                        async: true,
+                        dataType: "json",
+                        success: function(data) {
+                              if (data.err = "0") {
+                                    msgShow(data.mensaje, "success");
+                                    $("#btnEnviar").hide();
+                                    $("#btnEliminar").hide();
+                                    $('#mdlEliminar').modal('toggle');
+                              } else {
+                                    msgShow(data.mensaje, "danger");
+                                    $('#mdlEliminar').modal('toggle');
+                              }
+                        }
+                  });
             }
       </script>
       @endsection

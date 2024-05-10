@@ -19,8 +19,8 @@ class ControladorPedido extends Controller
       {
             $titulo = "Nuevo pedido";
             if (Usuario::autenticado() == true) {
-                  if (!Patente::autorizarOperacion("CLIENTEALTA")) {
-                        $codigo = "CLIENTEALTA";
+                  if (!Patente::autorizarOperacion("PEDIDOALTA")) {
+                        $codigo = "PEDIDOALTA";
                         $mensaje = "No tiene permisos para la operacion.";
                         return view('sistema.pagina-error', compact('titulo', 'codigo', 'mensaje'));
                   } else {
@@ -45,8 +45,8 @@ class ControladorPedido extends Controller
       {
             $titulo = "Listado de pedidos";
             if (Usuario::autenticado() == true) {
-                  if (!Patente::autorizarOperacion("MENUCONSULTA")) {
-                        $codigo = "MENUCONSULTA";
+                  if (!Patente::autorizarOperacion("PEDIDOCONSULTA")) {
+                        $codigo = "PEDIDOCONSULTA";
                         $mensaje = "No tiene permisos para la operacion.";
                         return view('sistema.pagina-error', compact('titulo', 'codigo', 'mensaje'));
                   } else {
@@ -96,8 +96,8 @@ class ControladorPedido extends Controller
             $titulo = "Edicion de cliente";
 
             if (Usuario::autenticado() == true) {
-                  if (!Patente::autorizarOperacion("CLIENTEEDITAR")) {
-                        $codigo = "CLIENTEEDITAR";
+                  if (!Patente::autorizarOperacion("PEDIDOEDITAR")) {
+                        $codigo = "PEDIDOEDITAR";
                         $mensaje = "No tiene permisos para la operacion.";
                         return view('sistema.pagina-error', compact('titulo', 'codigo', 'mensaje'));
                   } else {
@@ -165,7 +165,7 @@ class ControladorPedido extends Controller
       public function eliminar(Request $request)
       {
             if (Usuario::autenticado() == true) {
-                  if (!Patente::autorizarOperacion("CLIENTEELIMINAR")) {
+                  if (!Patente::autorizarOperacion("PEDIDOELIMINAR")) {
                         $resultado["err"] = EXIT_FAILURE;
                         $resultado["mensaje"] = "No tiene permisos para la operacion.";
                   } else {

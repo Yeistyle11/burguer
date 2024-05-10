@@ -11,7 +11,7 @@ class Proveedor extends Model
       public $timestamp = false;
 
       protected $fillable = [ //Son los campos de la tabla proveedores en la BBDD
-            'idproveedor', 'nombre', 'dni', 'telefono', 'correo'
+            'idproveedor', 'nombre', 'dni', 'telefono', 'correo', 'fk_idrubro'
       ];
 
       protected $hidden = [];
@@ -23,6 +23,7 @@ class Proveedor extends Model
             $this->dni = $request->input('txtDni');
             $this->telefono = $request->input('txtTelefono');
             $this->correo = $request->input('txtCorreo');
+            $this->fk_idrubro = $request->input('lstRubro');
       }
 
       public function obtenerTodos()
@@ -32,7 +33,8 @@ class Proveedor extends Model
                         nombre,
                         dni,
                         telefono,
-                        correo
+                        correo,
+                        fk_idrubro
                   FROM proveedores ORDER BY nombre";
             $lstRetorno = DB::select($sql);
             return $lstRetorno;
@@ -45,7 +47,8 @@ class Proveedor extends Model
                   nombre,
                   dni,
                   telefono,
-                  correo
+                  correo,
+                  fk_idrubro
                   FROM proveedores WHERE idproveedor = $idProveedor";
             $lstRetorno = DB::select($sql);
 
@@ -55,6 +58,7 @@ class Proveedor extends Model
                   $this->dni = $lstRetorno[0]->dni;
                   $this->telefono = $lstRetorno[0]->telefono;
                   $this->correo = $lstRetorno[0]->correo;
+                  $this->fk_idrubro = $lstRetorno[0]->fk_idrubro;
                   return $this;
             }
             return null;
@@ -66,7 +70,8 @@ class Proveedor extends Model
                   nombre='$this->nombre',
                   dni='$this->dni',
                   telefono='$this->telefono',
-                  correo='$this->correo'
+                  correo='$this->correo',
+                  fk_idrubro=$this->fk_idrubro
                   WHERE idproveedor=?";
             $affected = DB::update($sql, [$this->idproveedor]);
       }
@@ -84,13 +89,15 @@ class Proveedor extends Model
                   nombre,
                   dni,
                   telefono,
-                  correo
-                  ) VALUES (?, ?, ?, ?);";
+                  correo,
+                  fk_idrubro
+                  ) VALUES (?, ?, ?, ?, ?);";
             $result = DB::insert($sql, [
                   $this->nombre,
                   $this->dni,
                   $this->telefono,
                   $this->correo,
+                  $this->fk_idrubro,
             ]);
             return $this->idproveedor = DB::getPdo()->lastInsertId();
       }
@@ -103,14 +110,18 @@ class Proveedor extends Model
                   1 => 'dni',
                   2 => 'telefono',
                   3 => 'correo',
+                  4 => 'fk_idrubro'
             );
-            $sql = "SELECT
-                        idproveedor,
-                        nombre,
-                        dni,
-                        telefono,
-                        correo
-                  FROM proveedores
+            $sql = "SELECT DISTINCT 
+                        A.idproveedor,
+                        A.nombre,
+                        A.dni,
+                        A.telefono,
+                        A.correo,
+                        A.fk_idrubro,
+                        B.nombre AS rubros
+                  FROM proveedores A
+                  INNER JOIN rubros B ON A.fk_idrubro
                   WHERE 1=1
             ";
 
@@ -121,11 +132,26 @@ class Proveedor extends Model
                   $sql .= " OR dni LIKE '%" . $request['search']['value'] . "%' )";
                   $sql .= " OR telefono LIKE '%" . $request['search']['value'] . "%' )";
                   $sql .= " OR correo LIKE '%" . $request['search']['value'] . "%' )";
+                  $sql .= " OR fk_idrubro LIKE '%" . $request['search']['value'] . "%' )";
             }
             $sql .= " ORDER BY " . $columns[$request['order'][0]['column']] . "   " . $request['order'][0]['dir'];
 
             $lstRetorno = DB::select($sql);
 
             return $lstRetorno;
+      }
+
+      public function existeRubroPorProveedor($idProveedor)
+      {
+            $sql = "SELECT
+                        idproveedor,
+                        nombre,
+                        dni,
+                        telefono,
+                        correo,
+                        fk_idrubro
+                  FROM proveedores WHERE fk_idrubro = $idProveedor";
+            $lstRetorno = DB::select($sql);
+            return (count($lstRetorno) > 0);
       }
 }

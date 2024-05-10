@@ -18,8 +18,8 @@ class ControladorProducto extends Controller
       {
             $titulo = "Nuevo Producto";
             if (Usuario::autenticado() == true) {
-                  if (!Patente::autorizarOperacion("CLIENTEALTA")) {
-                        $codigo = "CLIENTEALTA";
+                  if (!Patente::autorizarOperacion("PRODUCTOSALTA")) {
+                        $codigo = "PRODUCTOSALTA";
                         $mensaje = "No tiene permisos para la operacion.";
                         return view('sistema.pagina-error', compact('titulo', 'codigo', 'mensaje'));
                   } else {
@@ -38,8 +38,8 @@ class ControladorProducto extends Controller
       {
             $titulo = "Listado de productos";
             if (Usuario::autenticado() == true) {
-                  if (!Patente::autorizarOperacion("MENUCONSULTA")) {
-                        $codigo = "MENUCONSULTA";
+                  if (!Patente::autorizarOperacion("PRODUCTOCONSULTA")) {
+                        $codigo = "PRODUCTOSCONSULTA";
                         $mensaje = "No tiene permisos para la operacion.";
                         return view('sistema.pagina-error', compact('titulo', 'codigo', 'mensaje'));
                   } else {
@@ -90,8 +90,8 @@ class ControladorProducto extends Controller
             $titulo = "Edicion de producto";
 
             if (Usuario::autenticado() == true) {
-                  if (!Patente::autorizarOperacion("CLIENTEEDITAR")) {
-                        $codigo = "CLIENTEEDITAR";
+                  if (!Patente::autorizarOperacion("PRODUCTOEDITAR")) {
+                        $codigo = "PRODUCTOEDITAR";
                         $mensaje = "No tiene permisos para la operacion.";
                         return view('sistema.pagina-error', compact('titulo', 'codigo', 'mensaje'));
                   } else {
@@ -155,7 +155,7 @@ class ControladorProducto extends Controller
       public function eliminar(Request $request)
       {
             if (Usuario::autenticado() == true) {
-                  if (!Patente::autorizarOperacion("CLIENTEELIMINAR")) {
+                  if (!Patente::autorizarOperacion("PRODUCTOELIMINAR")) {
                         $resultado["err"] = EXIT_FAILURE;
                         $resultado["mensaje"] = "No tiene permisos para la operacion.";
                   } else {

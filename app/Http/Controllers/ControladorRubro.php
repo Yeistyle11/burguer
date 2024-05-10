@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Entidades\Proveedor;
 use App\Entidades\Rubro;
 use Illuminate\Http\Request;
+use App\Entidades\Sistema\Usuario;
+use App\Entidades\Sistema\Patente;
 
 require app_path() . '/start/constants.php';
 
@@ -13,14 +16,34 @@ class ControladorRubro extends Controller
       public function nuevo()
       {
             $titulo = "Nuevo rubro";
-            $rubro = new Rubro();
-            return view("sistema.rubro-nuevo", compact("titulo", 'rubro'));
+            if (Usuario::autenticado() == true) {
+                  if (!Patente::autorizarOperacion("RUBROALTA")) {
+                        $codigo = "RUBROALTA";
+                        $mensaje = "No tiene permisos para la operacion.";
+                        return view('sistema.pagina-error', compact('titulo', 'codigo', 'mensaje'));
+                  } else {
+                        $rubro = new Rubro();
+                        return view("sistema.rubro-nuevo", compact("titulo", 'rubro'));
+                  }
+            } else {
+                  return redirect('admin/login');
+            }
       }
 
       public function index()
       {
             $titulo = "Listado de rubros";
-            return view("sistema.rubro-listar", compact("titulo"));
+            if (Usuario::autenticado() == true) {
+                  if (!Patente::autorizarOperacion("RUBROCONSULTA")) {
+                        $codigo = "RUBROCONSULTA";
+                        $mensaje = "No tiene permisos para la operacion.";
+                        return view('sistema.pagina-error', compact('titulo', 'codigo', 'mensaje'));
+                  } else {
+                        return view("sistema.rubro-listar", compact("titulo"));
+                  }
+            } else {
+                  return redirect('admin/login');
+            }
       }
 
       public function cargarGrilla(Request $request)
@@ -39,7 +62,7 @@ class ControladorRubro extends Controller
 
             for ($i = $inicio; $i < count($aRubros) && $cont < $registros_por_pagina; $i++) {
                   $row = array();
-                  $row[] = "<a href='/admin/rubro/".$aRubros[$i]->idrubro ."'>" .$aRubros[$i]->nombre . "</a>";
+                  $row[] = "<a href='/admin/rubro/" . $aRubros[$i]->idrubro . "'>" . $aRubros[$i]->nombre . "</a>";
                   $cont++;
                   $data[] = $row;
             }
@@ -53,11 +76,21 @@ class ControladorRubro extends Controller
             return json_encode($json_data);
       }
 
-      public function editar($idRubro){
-            $titulo = "Edicion de rubro";
-            $rubro = new Rubro();
-            $rubro->obtenerPorId($idRubro);
-            return view("sistema.rubro-nuevo", compact("titulo", "rubro"));
+      public function editar($idRubro)
+      {     $titulo = "Edicion de rubro";
+            if (Usuario::autenticado() == true) {
+                  if (!Patente::autorizarOperacion("RUBROEDITAR")) {
+                        $codigo = "RUBROEDITAR";
+                        $mensaje = "No tiene permisos para la operacion.";
+                        return view('sistema.pagina-error', compact('titulo', 'codigo', 'mensaje'));
+                  } else {
+                        $rubro = new Rubro();
+                        $rubro->obtenerPorId($idRubro);
+                        return view("sistema.rubro-nuevo", compact("titulo", "rubro"));
+                  }
+            } else {
+                  return redirect('admin/login');
+            }
       }
 
       public function guardar(Request $request)
@@ -100,5 +133,36 @@ class ControladorRubro extends Controller
             $rubro->obtenerPorId($id);
 
             return view('sistema.rubro-nuevo', compact('msg', 'rubro', 'titulo')) . '?id=' . $rubro->idrubro;
+      }
+
+      public function eliminar(Request $request)
+      {
+            if (Usuario::autenticado() == true) {
+                  if (!Patente::autorizarOperacion("RUBROBAJA")) {
+                        $resultado["err"] = EXIT_FAILURE;
+                        $resultado["mensaje"] = "No tiene permisos para la operacion.";
+                  } else {
+                        $idRubro = $request->input('id');
+                        $proveedor = new Proveedor();
+
+
+                        //Si el rubro tiene algun proveedor asociado no puede eliminatr
+                        if ($proveedor->existeRubroPorProveedor($idRubro)) {
+                              $resultado["err"] = EXIT_FAILURE;
+                              $resultado["mensaje"] = "No se puede eliminar un rubro con proveedores asociados.";
+                        } else {
+                              //Sino si
+                              $rubro = new Rubro();
+                              $rubro->idrubro = $idRubro;
+                              $rubro->eliminar();
+                              $resultado["err"] = EXIT_SUCCESS;
+                              $resultado["mensaje"] = "Registro eliminado exitosamente.";
+                        }
+                  }
+            } else {
+                  $resultado["err"] = EXIT_FAILURE;
+                  $resultado["mensaje"] = "Usuario no autenticado.";
+            }
+            return json_encode($resultado);
       }
 }
