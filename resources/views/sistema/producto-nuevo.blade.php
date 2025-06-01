@@ -35,7 +35,7 @@ if (isset($msg)) {
 ?>
 <div id = "msg"></div>
 <div class="panel-body">
-      <form id="form1" method="POST">
+      <form id="form1" method="POST" enctype="multipart/form-data">
             <div class="row">
                   <div class="form-group col-lg-6">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"></input>

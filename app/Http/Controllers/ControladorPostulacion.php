@@ -65,7 +65,7 @@ class ControladorPostulacion extends Controller
                   $row[] = $aPostulaciones[$i]->apellido;
                   $row[] = $aPostulaciones[$i]->whatsapp;
                   $row[] = $aPostulaciones[$i]->correo;
-                  $row[] = "<a href=''> Descargar </a>";
+                  $row[] = "<a href='" . $aPostulaciones[$i]->linkcv . "' target='_blank'>Ver CV</a>";
                   $cont++;
                   $data[] = $row;
             }

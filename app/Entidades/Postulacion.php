@@ -127,8 +127,8 @@ class Postulacion extends Model
             if (!empty($request['search']['value'])) {
                   $sql .= " AND ( nombre LIKE '%" . $request['search']['value'] . "%' ";
                   $sql .= " OR apellido LIKE '%" . $request['search']['value'] . "%' ";
-                  $sql .= " OR whatsapp LIKE '%" . $request['search']['value'] . "%' )";
-                  $sql .= " OR correo LIKE '%" . $request['search']['value'] . "%' )";
+                  $sql .= " OR whatsapp LIKE '%" . $request['search']['value'] . "%' ";
+                  $sql .= " OR correo LIKE '%" . $request['search']['value'] . "%' ";
                   $sql .= " OR linkcv LIKE '%" . $request['search']['value'] . "%' )";
             }
             $sql .= " ORDER BY " . $columns[$request['order'][0]['column']] . "   " . $request['order'][0]['dir'];

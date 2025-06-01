@@ -112,7 +112,7 @@ class ControladorSucursal extends Controller
       public function eliminar(Request $request)
       {
             if (Usuario::autenticado() == true) {
-                  if (!Patente::autorizarOperacion("CLIENTEELIMINAR")) {
+                  if (!Patente::autorizarOperacion("SUCURSALELIMINAR")) {
                         $resultado["err"] = EXIT_FAILURE;
                         $resultado["mensaje"] = "No tiene permisos para la operacion.";
                   } else {

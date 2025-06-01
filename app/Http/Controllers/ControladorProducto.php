@@ -115,6 +115,14 @@ class ControladorProducto extends Controller
                   $entidad = new Producto();
                   $entidad->cargarDesdeRequest($request);
 
+                  // Manejo de imagen
+                  if ($request->hasFile('txtImagen') && $request->file('txtImagen')->isValid()) {
+                        $archivo = $request->file('txtImagen');
+                        $nombre = time() . '-' . $archivo->getClientOriginalName();
+                        $archivo->move(public_path('web/images'), $nombre);
+                        $entidad->imagen = $nombre;
+                  }
+
                   //validaciones
                   if ($entidad->titulo == "" || $entidad->precio == "" || $entidad->cantidad == "") {
                         $msg["ESTADO"] = MSG_ERROR;

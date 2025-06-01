@@ -17,7 +17,7 @@ class ControladorCategoria extends Controller
       {
             $titulo = "Nueva categoria";
             if (Usuario::autenticado() == true) {
-                  if (!Patente::autorizarOperacion("CATEGORIAALTA")) {
+                  if (!Patente::autorizarOperacion("CONSULTAALTA")) {
                         $codigo = "CATEGORIAALTA";
                         $mensaje = "No tiene permisos para la operacion.";
                         return view('sistema.pagina-error', compact('titulo', 'codigo', 'mensaje'));

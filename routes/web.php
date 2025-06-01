@@ -30,6 +30,7 @@ Route::group(array('domain' => '127.0.0.1'), function () {
     Route::get('/contacto-gracias', 'ControladorWebContactoGracias@index');
     Route::get('/login', 'ControladorWebLogin@index');
     Route::get('/registrarse', 'ControladorWebRegistrarse@index');
+    Route::post('/registrarse', 'ControladorWebRegistrarse@registrarse');
     Route::get('/recuperar-clave', 'ControladorWebRecuperarClave@index');
  
 /* --------------------------------------------- */
@@ -203,3 +204,6 @@ Route::get('/admin/rubros/cargarGrilla', 'ControladorRubro@cargarGrilla')->name(
 Route::get('/admin/rubro/eliminar', 'ControladorRubro@eliminar');
 Route::get('/admin/rubro/{idRubro}', 'ControladorRubro@editar');
 Route::post('/admin/rubro/{idRubro}', 'ControladorRubro@guardar');
+Route::get('/postulacion', 'ControladorWebPostulacion@index');
+Route::post('/postulacion', 'ControladorWebPostulacion@guardar');
+Route::get('/postulacion-gracias', 'ControladorWebPostulacionGracias@index');

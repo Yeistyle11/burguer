@@ -127,8 +127,8 @@ class Sucursal extends Model
             if (!empty($request['search']['value'])) {
                   $sql .= " AND ( nombre LIKE '%" . $request['search']['value'] . "%' ";
                   $sql .= " OR direccion LIKE '%" . $request['search']['value'] . "%' ";
-                  $sql .= " OR telefono LIKE '%" . $request['search']['value'] . "%' )";
-                  $sql .= " OR linkmapa LIKE '%" . $request['search']['value'] . "%' )";
+                  $sql .= " OR telefono LIKE '%" . $request['search']['value'] . "%' ";
+                  $sql .= " OR linkmapa LIKE '%" . $request['search']['value'] . "%' ";
                   $sql .= " OR horario LIKE '%" . $request['search']['value'] . "%' )";
             }
             $sql .= " ORDER BY " . $columns[$request['order'][0]['column']] . "   " . $request['order'][0]['dir'];
