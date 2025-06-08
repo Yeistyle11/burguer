@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Cliente extends Model
 {
       protected $table = 'clientes';
-      public $timestamp = false;
+      protected $primaryKey = 'idcliente';
+      public $timestamps = false;
 
       protected $fillable = [ //Son los campos de la tabla clientes en la BBDD
             'idcliente', 'nombre', 'telefono', 'direccion', 'dni', 'correo', 'clave'

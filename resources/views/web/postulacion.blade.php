@@ -4,13 +4,13 @@
 <!-- postulacion section -->
 <section class="book_section layout_padding">
   <div class="container">
-    <div class="heading_container" style="text-align:center; width:100%;">
-      <h2>
+    <div class="heading_container d-flex flex-column align-items-center" style="text-align:center; width:100%;">
+      <h2 class="w-100 text-center">
         Postulación
       </h2>
-      <p>Completa el formulario para enviar tu hoja de vida</p>
+      <p class="w-100 text-center">Completa el formulario para enviar tu hoja de vida</p>
     </div>
-    <div class="row justify">
+    <div class="row justify-content-center">
       <div class="col-md-6">
         <div class="form_container">
           <form action="{{ url('/postulacion') }}" method="POST" enctype="multipart/form-data">
@@ -34,8 +34,8 @@
             <div>
               <input type="url" name="txtLinkCV" class="form-control" placeholder="O enlace a tu CV (Drive, Dropbox, etc.)">
             </div>
-            <div class="btn_box">
-              <button type="submit">
+            <div class="btn_box mt-3">
+              <button type="submit" class="btn btn-success w-100">
                 Enviar postulación
               </button>
             </div>

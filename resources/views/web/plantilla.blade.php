@@ -54,16 +54,16 @@
 
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav  mx-auto ">
-            <li class="nav-item active">
+              <li class="nav-item {{ Request::is('/') ? 'active' : '' }}">
                 <a class="nav-link" href="/">Inicio <span class="sr-only">(current)</span></a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item {{ Request::is('takeaway') ? 'active' : '' }}">
                 <a class="nav-link" href="/takeaway">Takeaway</a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item {{ Request::is('nosotros') ? 'active' : '' }}">
                 <a class="nav-link" href="/nosotros">Nosotros</a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item {{ Request::is('contacto') ? 'active' : '' }}">
                 <a class="nav-link" href="/contacto">Contacto</a>
               </li>
             </ul>
@@ -125,9 +125,15 @@
                   </g>
                 </svg>
               </a>
-              <a href="" class="order_online">
-                Ingresar
-              </a>
+              @if(!session('cliente_logueado'))
+                <a href="/login" class="order_online">
+                  Ingresar
+                </a>
+              @else
+                <a href="/salir" class="order_online" style="background:#dc3545;">
+                  Salir
+                </a>
+              @endif
             </div>
           </div>
         </nav>
