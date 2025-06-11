@@ -210,3 +210,7 @@ Route::post('/postulacion', 'ControladorWebPostulacion@guardar');
 Route::get('/postulacion-gracias', 'ControladorWebPostulacionGracias@index');
 Route::post('/mi-cuenta', 'ControladorWebMiCuenta@actualizar');
 Route::get('/salir', 'ControladorWebLogin@salir');
+Route::post('/carrito/agregar', 'ControladorWebCarrito@agregar');
+Route::get('/carrito/quitar/{id}', 'ControladorWebCarrito@quitar');
+Route::get('/carrito/vaciar', 'ControladorWebCarrito@vaciar');
+Route::post('/carrito/actualizar', 'ControladorWebCarrito@actualizar');

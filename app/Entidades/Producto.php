@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Producto extends Model
 {
       protected $table = 'productos';
+      protected $primaryKey = 'idproducto'; // <--- agrega esto
       public $timestamps = false;
 
       protected $fillable = [ //Son los campos de la tabla productos de la BBDD

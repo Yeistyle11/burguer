@@ -71,7 +71,17 @@
               <a href="/mi-cuenta" class="user_link">
                 <i class="fa fa-user" aria-hidden="true"></i>
               </a>
-              <a class="cart_link" href="/carrito">
+              @php
+                $carrito = session('carrito', []);
+                $cantidadCarrito = array_sum($carrito);
+              @endphp
+              <a class="cart_link position-relative" href="/carrito">
+                @if($cantidadCarrito > 0)
+                  <span class="badge badge-warning position-absolute"
+                        style="top:-6px; right:-10px; font-size:0.7em; border-radius:50%; min-width:18px; min-height:18px; padding:0; display:flex; align-items:center; justify-content:center; z-index:2;">
+                    {{ $cantidadCarrito }}
+                  </span>
+                @endif
                 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
                   <g>
                     <g>
@@ -92,6 +102,8 @@
                       <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
                    c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
                     </g>
+                  </g>
+                  <g>
                   </g>
                   <g>
                   </g>
