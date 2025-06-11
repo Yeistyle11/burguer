@@ -24,6 +24,9 @@
               <a href="{{ url('/registrarse') }}" class="btn1 w-100 text-center" style="text-decoration:none;">
                 REGISTRARSE
               </a>
+              <a href="{{ url('/olvide-contrasena') }}" class="btn1 w-100 text-center text-warning" style="background:transparent; border:none; box-shadow:none; text-decoration:underline;">
+                ¿Olvidaste tu contraseña?
+              </a>
             </div>
           </form>
         </div>

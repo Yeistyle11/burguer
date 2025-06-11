@@ -16,7 +16,7 @@
                       Doloremque, itaque aperiam facilis rerum, commodi, temporibus sapiente ad mollitia laborum quam quisquam esse error unde. Tempora ex doloremque, labore, sunt repellat dolore, iste magni quos nihil ducimus libero ipsam.
                     </p>
                     <div class="btn-box">
-                      <a href="" class="btn1">
+                      <a href="{{ url('/takeaway') }}" class="btn1">
                         Order Now
                       </a>
                     </div>
@@ -37,7 +37,7 @@
                       Doloremque, itaque aperiam facilis rerum, commodi, temporibus sapiente ad mollitia laborum quam quisquam esse error unde. Tempora ex doloremque, labore, sunt repellat dolore, iste magni quos nihil ducimus libero ipsam.
                     </p>
                     <div class="btn-box">
-                      <a href="" class="btn1">
+                      <a href="{{ url('/takeaway') }}" class="btn1">
                         Order Now
                       </a>
                     </div>
@@ -58,7 +58,7 @@
                       Doloremque, itaque aperiam facilis rerum, commodi, temporibus sapiente ad mollitia laborum quam quisquam esse error unde. Tempora ex doloremque, labore, sunt repellat dolore, iste magni quos nihil ducimus libero ipsam.
                     </p>
                     <div class="btn-box">
-                      <a href="" class="btn1">
+                      <a href="{{ url('/takeaway') }}" class="btn1">
                         Order Now
                       </a>
                     </div>
@@ -150,6 +150,8 @@
                     </g>
                     <g>
                     </g>
+                    <g>
+                    </g>
                   </svg>
                 </a>
               </div>
@@ -188,6 +190,8 @@
                         <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
                      c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
                       </g>
+                    </g>
+                    <g>
                     </g>
                     <g>
                     </g>

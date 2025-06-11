@@ -30,6 +30,17 @@ class ControladorWebMiCuenta extends Controller
             $cliente->direccion = $request->input('direccion');
             $cliente->dni = $request->input('dni');
             $cliente->correo = $request->input('correo');
+
+            // Validar y actualizar contraseña solo si se envió
+            $password = $request->input('password');
+            $password_confirmation = $request->input('password_confirmation');
+            if ($password || $password_confirmation) {
+                if ($password !== $password_confirmation) {
+                    return redirect('/mi-cuenta')->with('error', 'Las contraseñas no coinciden.');
+                }
+                $cliente->clave = password_hash($password, PASSWORD_DEFAULT);
+            }
+
             $cliente->save();
 
             // Actualiza el nombre en sesión si fue cambiado

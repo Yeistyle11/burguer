@@ -32,6 +32,15 @@
             <div>
               <input type="email" name="correo" class="form-control" placeholder="Correo" value="{{ $cliente->correo ?? '' }}" required />
             </div>
+            <div class="mt-4 mb-2">
+              <h6 class="text-center">Cambiar contraseña (opcional)</h6>
+            </div>
+            <div>
+              <input type="password" name="password" class="form-control" placeholder="Nueva contraseña" autocomplete="new-password" />
+            </div>
+            <div>
+              <input type="password" name="password_confirmation" class="form-control" placeholder="Repetir nueva contraseña" autocomplete="new-password" />
+            </div>
             <div class="btn_box mt-3">
               <button type="submit" class="btn btn-success w-100">Guardar cambios</button>
             </div>

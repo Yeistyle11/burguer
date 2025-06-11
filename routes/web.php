@@ -214,3 +214,5 @@ Route::post('/carrito/agregar', 'ControladorWebCarrito@agregar');
 Route::get('/carrito/quitar/{id}', 'ControladorWebCarrito@quitar');
 Route::get('/carrito/vaciar', 'ControladorWebCarrito@vaciar');
 Route::post('/carrito/actualizar', 'ControladorWebCarrito@actualizar');
+Route::get('/olvide-contrasena', 'ControladorWebRecuperoClave@mostrarFormulario');
+Route::post('/olvide-contrasena', 'ControladorWebRecuperoClave@enviarRecupero');
