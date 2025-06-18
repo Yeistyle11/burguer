@@ -40,36 +40,60 @@ if (isset($msg)) {
             <div class="row">
                   <div class="form-group col-lg-6">
                         <label>Seleccione cliente: *</label>
-                        <select class="form-control" id="lstCliente" name="lstCliente" required>
-                        @foreach($aClientes as $cliente)
-                              <option value="{{ $cliente->idcliente }}">{{ $cliente->nombre }}</option>
-                        @endforeach
-                        </select>
+                        @if(isset($pedido) && isset($pedido->idpedido) && $pedido->idpedido > 0)
+                              {{-- Edición: solo mostrar el nombre y enviar el id oculto --}}
+                              @php
+                                    $clienteNombre = '';
+                                    foreach($aClientes as $cliente) {
+                                          if($cliente->idcliente == $pedido->fk_idcliente) {
+                                                $clienteNombre = $cliente->nombre;
+                                                break;
+                                          }
+                                    }
+                              @endphp
+                              <input type="text" class="form-control" value="{{ $clienteNombre }}" readonly>
+                              <input type="hidden" name="lstCliente" value="{{ $pedido->fk_idcliente }}">
+                        @else
+                              {{-- Alta: seleccionar cliente --}}
+                              <select class="form-control" id="lstCliente" name="lstCliente" required>
+                                    <option value="" disabled selected>Seleccionar</option>
+                                    @foreach($aClientes as $cliente)
+                                          <option value="{{ $cliente->idcliente }}" {{ (isset($pedido) && $pedido->fk_idcliente == $cliente->idcliente) ? 'selected' : '' }}>
+                                                {{ $cliente->nombre }}
+                                          </option>
+                                    @endforeach
+                              </select>
+                        @endif
                   </div>
                   <div class="form-group col-lg-6">
                         <label>Seleccione sucursal: *</label>
                         <select class="form-control" id="lstSucursal" name="lstSucursal" required>
-                              <option value="" disabled selected>Seleccionar</option>
+                              <option value="" disabled {{ !isset($pedido->fk_idsucursal) ? 'selected' : '' }}>Seleccionar</option>
                               @foreach($aSucursales as $sucursal)
-                              <option value="{{ $sucursal->idsucursal }}">{{ $sucursal->nombre }}</option>
+                              <option value="{{ $sucursal->idsucursal }}"
+                                  {{ (isset($pedido->fk_idsucursal) && $pedido->fk_idsucursal == $sucursal->idsucursal) ? 'selected' : '' }}>
+                                  {{ $sucursal->nombre }}
+                              </option>
                         @endforeach
                         </select>
                   </div>
                   <div class="form-group col-lg-6">
                         <label>Seleccione estado del pedido: *</label>
                         <select class="form-control" id="lstEstadoPedido" name="lstEstadoPedido" required>
-                              <option value="" disabled selected>Seleccionar</option>
-                              @foreach($aEstadoPedidos as $estado_pedido)
-                              <option value="{{ $estado_pedido->idestadopedido }}">{{ $estado_pedido->nombre }}</option>
-                        @endforeach
-                        </select>
+                            <option value="" disabled>Seleccionar</option>
+                            @foreach($aEstadoPedidos as $estado_pedido)
+                                <option value="{{ $estado_pedido->idestadopedido }}"
+                                    {{ (isset($pedido->fk_idestadopedido) && $pedido->fk_idestadopedido == $estado_pedido->idestadopedido) ? 'selected' : '' }}>
+                                    {{ $estado_pedido->nombre }}
+                                </option>
+                            @endforeach
                         </select>
                   </div>
                   <div class="form-group col-lg-6">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"></input>
                         <input type="hidden" id="id" name="id" class="form-control" value="{{$globalId}}" required>
                         <label>Fecha: *</label>
-                        <input type="date" id="txtFecha" name="txtFecha" class="form-control datepicker" value="{{ $pedido->fecha }}" required>
+                        <input type="datetime-local" id="txtFecha" name="txtFecha" class="form-control" value="{{ old('txtFecha', $pedido->fecha ? date('Y-m-d\TH:i', strtotime($pedido->fecha)) : '') }}" required>
                   </div>
                   <div class="form-group col-lg-6">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"></input>
@@ -78,13 +102,10 @@ if (isset($msg)) {
                         <input type="text" id="txtTotal" name="txtTotal" class="form-control" value="{{ $pedido->total }}" required>
                   </div>
             </div>
-</div>
-
-</form>
-<script>
-      $("#form1").validate();
-
+      </form>
+      <script>
       function guardar() {
+            $("#form1").validate();
             if ($("#form1").valid()) {
                   modificado = false;
                   form1.submit();
@@ -94,17 +115,19 @@ if (isset($msg)) {
                   return false;
             }
       }
-
+      </script>
+      <script>
       function eliminar() {
-                  $.ajax({
-                        type: "GET",
-                        url: "{{ asset('admin/pedido/eliminar') }}",
-                        data: {
-                              id: globalId
-                        },
-                        async: true,
-                        dataType: "json",
-                        success: function(data) {
+            $('#mdlEliminar').modal('toggle');
+            $.ajax({
+                  type: "GET",
+                  url: "{{ asset('admin/pedido/eliminar') }}",
+                  data: {
+                        id: globalId
+                  },
+                  async: true,
+                  dataType: "json",
+                  success: function(data) {
                               if (data.err = "0") {
                                     msgShow(data.mensaje, "success");
                                     $("#btnEnviar").hide();
@@ -114,8 +137,8 @@ if (isset($msg)) {
                                     msgShow(data.mensaje, "danger");
                                     $('#mdlEliminar').modal('toggle');
                               }
-                        }
-                  });
-            }
-</script>
+                  }
+            });
+      }
+      </script>
 @endsection

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Sucursal extends Model
 {
       protected $table = 'sucursales';
+      protected $primaryKey = 'idsucursal';
       public $timestamps = false;
 
       protected $fillable = [ //Son los campos de la tabla sucursales en la BBDD

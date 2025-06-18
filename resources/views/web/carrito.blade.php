@@ -87,7 +87,7 @@
       </div>
       <div class="d-flex justify-content-between mt-3">
         <a href="{{ url('/carrito/vaciar') }}" class="btn btn-warning">Vaciar carrito</a>
-
+        <a href="{{ url('pedido') }}" class="btn btn-success">Realizar pedido</a>
       </div>
     @endif
   </div>

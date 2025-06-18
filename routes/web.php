@@ -33,6 +33,21 @@ Route::group(array('domain' => '127.0.0.1'), function () {
     Route::get('/registrarse', 'ControladorWebRegistrarse@index');
     Route::post('/registrarse', 'ControladorWebRegistrarse@registrarse');
     Route::get('/recuperar-clave', 'ControladorWebRecuperarClave@index');
+    Route::get('/postulacion', 'ControladorWebPostulacion@index');
+    Route::post('/postulacion', 'ControladorWebPostulacion@guardar');
+    Route::get('/postulacion-gracias', 'ControladorWebPostulacionGracias@index');
+    Route::post('/mi-cuenta', 'ControladorWebMiCuenta@actualizar');
+    Route::get('/salir', 'ControladorWebLogin@salir');
+    Route::post('/carrito/agregar', 'ControladorWebCarrito@agregar');
+    Route::get('/carrito/quitar/{id}', 'ControladorWebCarrito@quitar');
+    Route::get('/carrito/vaciar', 'ControladorWebCarrito@vaciar');
+    Route::post('/carrito/actualizar', 'ControladorWebCarrito@actualizar');
+    Route::get('/olvide-contrasena', 'ControladorWebRecuperoClave@mostrarFormulario');
+    Route::post('/olvide-contrasena', 'ControladorWebRecuperoClave@enviarRecupero');
+    Route::get('pedido', 'ControladorWebPedido@hacerPedido');
+    Route::post('pedido', 'ControladorWebPedido@guardarPedido');
+    Route::get('pedido-detalle/{id}', 'ControladorWebPedido@verPedido');
+    Route::get('mis-pedidos', 'ControladorWebPedido@misPedidos');
  
 /* --------------------------------------------- */
 /* CONTROLADOR LOGIN                           */
@@ -205,14 +220,3 @@ Route::get('/admin/rubros/cargarGrilla', 'ControladorRubro@cargarGrilla')->name(
 Route::get('/admin/rubro/eliminar', 'ControladorRubro@eliminar');
 Route::get('/admin/rubro/{idRubro}', 'ControladorRubro@editar');
 Route::post('/admin/rubro/{idRubro}', 'ControladorRubro@guardar');
-Route::get('/postulacion', 'ControladorWebPostulacion@index');
-Route::post('/postulacion', 'ControladorWebPostulacion@guardar');
-Route::get('/postulacion-gracias', 'ControladorWebPostulacionGracias@index');
-Route::post('/mi-cuenta', 'ControladorWebMiCuenta@actualizar');
-Route::get('/salir', 'ControladorWebLogin@salir');
-Route::post('/carrito/agregar', 'ControladorWebCarrito@agregar');
-Route::get('/carrito/quitar/{id}', 'ControladorWebCarrito@quitar');
-Route::get('/carrito/vaciar', 'ControladorWebCarrito@vaciar');
-Route::post('/carrito/actualizar', 'ControladorWebCarrito@actualizar');
-Route::get('/olvide-contrasena', 'ControladorWebRecuperoClave@mostrarFormulario');
-Route::post('/olvide-contrasena', 'ControladorWebRecuperoClave@enviarRecupero');

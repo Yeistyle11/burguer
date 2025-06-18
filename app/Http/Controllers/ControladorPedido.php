@@ -93,7 +93,7 @@ class ControladorPedido extends Controller
 
       public function editar($idPedido)
       {
-            $titulo = "Edicion de cliente";
+            $titulo = "Edicion de pedido";
 
             if (Usuario::autenticado() == true) {
                   if (!Patente::autorizarOperacion("PEDIDOEDITAR")) {
@@ -109,7 +109,7 @@ class ControladorPedido extends Controller
 
                         $sucursal = new Sucursal();
                         $aSucursales = $sucursal->obtenerTodos();
-
+                        $pedido->fecha = date('Y-m-d H:i:s');
                         $estado_pedido = new Estado_Pedido();
                         $aEstadoPedidos = $estado_pedido->obtenerTodos();
                         return view("sistema.pedido-nuevo", compact("titulo", "pedido", "aClientes", "aSucursales", "aEstadoPedidos"));

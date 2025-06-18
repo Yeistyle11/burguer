@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Pedido extends Model
 {
       protected $table = 'pedidos';
+      protected $primaryKey = 'idpedido';
       public $timestamps = false;
 
       protected $fillable = [ //Son los campos de la tabla pedidos en la BBDD
@@ -67,10 +68,9 @@ class Pedido extends Model
       public function guardar()
       {
             $sql = "UPDATE pedidos SET
-                        fk_idcliente=$this->fk_idcliente,
                         fk_idsucursal=$this->fk_idsucursal,
                         fk_idestadopedido=$this->fk_idestadopedido,
-                        =$this->fecha,
+                        fecha='$this->fecha',
                         total=$this->total
                   WHERE idpedido=?";
             $affected = DB::update($sql, [$this->idpedido]);

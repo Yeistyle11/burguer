@@ -20,7 +20,7 @@ class ControladorWebLogin extends Controller
         $cliente = Cliente::where('correo', $correo)->first();
 
         if ($cliente && password_verify($clave, $cliente->clave)) {
-            session(['cliente_logueado' => $cliente->nombre]);
+            session(['cliente_logueado' => $cliente->nombre, 'id_cliente_logueado' => $cliente->idcliente]);
             return redirect('/')->with('mensaje', '¡Bienvenido, ' . $cliente->nombre . '!');
         } else {
             // Error: vuelve al login con mensaje de error

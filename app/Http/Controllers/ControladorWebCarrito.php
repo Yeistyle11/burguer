@@ -10,7 +10,6 @@ class ControladorWebCarrito extends Controller
     public function index()
     {
         $carrito = session('carrito', []);
-        // Si quieres mostrar info de productos:
         $productos = [];
         foreach ($carrito as $id => $cantidad) {
             $producto = Producto::find($id);

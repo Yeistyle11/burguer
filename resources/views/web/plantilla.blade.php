@@ -16,19 +16,21 @@
   <title> Feane </title>
 
   <!-- bootstrap core css -->
-  <link rel="stylesheet" type="text/css" href="web/css/bootstrap.css" />
+  <link rel="stylesheet" type="text/css" href="{{ asset('web/css/bootstrap.css') }}" />
 
-  <!--owl slider stylesheet -->
+  <!-- owl slider stylesheet -->
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+
   <!-- nice select  -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" integrity="sha512-CruCP+TD3yXzlvvijET8wV5WxxEh5H8P4cmz0RFbKK6FlZ2sYl3AEsKlLPHbniXKSrDdFewhbmBK5skbdsASbQ==" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" crossorigin="anonymous" />
+
   <!-- font awesome style -->
-  <link href="web/css/font-awesome.min.css" rel="stylesheet" />
+  <link href="{{ asset('web/css/font-awesome.min.css') }}" rel="stylesheet" />
 
   <!-- Custom styles for this template -->
-  <link href="web/css/style.css" rel="stylesheet" />
+  <link href="{{ asset('web/css/style.css') }}" rel="stylesheet" />
   <!-- responsive style -->
-  <link href="web/css/responsive.css" rel="stylesheet" />
+  <link href="{{ asset('web/css/responsive.css') }}" rel="stylesheet" />
 
 </head>
 
@@ -36,7 +38,7 @@
 
   <div class="hero_area">
     <div class="bg-box">
-      <img src="web/images/hero-bg.jpg" alt="">
+      <img src="{{ asset('web/images/hero-bg.jpg') }}" alt="">
     </div>
     <!-- header section strats -->
     <header class="header_section">
@@ -135,15 +137,20 @@
                   </g>
                   <g>
                   </g>
+                  <g>
+                  </g>
                 </svg>
               </a>
-              @if(!session('cliente_logueado'))
-                <a href="/login" class="order_online">
-                  Ingresar
+              @if(session('cliente_logueado'))
+                <a href="{{ url('mis-pedidos') }}" class="order_online" style="background:#17a2b8;">
+                  <i class="fa fa-list"></i> Mis pedidos
                 </a>
-              @else
                 <a href="/salir" class="order_online" style="background:#dc3545;">
                   Salir
+                </a>
+              @else
+                <a href="/login" class="order_online">
+                  Ingresar
                 </a>
               @endif
             </div>
@@ -241,21 +248,35 @@
 <!-- end footer section -->
 
 <!-- jQuery -->
-<script src="web/js/jquery-3.4.1.min.js"></script>
-<!-- popper js -->
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="{{ asset('web/js/jquery-3.4.1.min.js') }}"></script>
 <!-- bootstrap js -->
-<script src="web/js/bootstrap.js"></script>
-<!-- owl slider -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-<!-- isotope js -->
-<script src="https://unpkg.com/isotope-layout@3.0.4/dist/isotope.pkgd.min.js"></script>
-<!-- nice select -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script>
+<script src="{{ asset('web/js/bootstrap.js') }}"></script>
 <!-- custom js -->
-<script src="web/js/custom.js"></script>
+<script src="{{ asset('web/js/custom.js') }}"></script>
 <!-- Google Map -->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap"></script>
+
+<!-- Isotope JS -->
+<script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+
+<script>
+  $(document).ready(function() {
+    // Inicializar Isotope
+    var $grid = $('.grid').isotope({
+      itemSelector: '.all',
+      layoutMode: 'fitRows'
+    });
+
+    // Filtrado al hacer clic en categorías
+    $('.filters_menu li').on('click', function() {
+      $('.filters_menu li').removeClass('active');
+      $(this).addClass('active');
+
+      var filterValue = $(this).attr('data-filter');
+      $grid.isotope({ filter: filterValue });
+    });
+  });
+</script>
 
 </body>
 </html>

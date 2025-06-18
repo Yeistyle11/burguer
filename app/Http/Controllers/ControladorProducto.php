@@ -66,7 +66,7 @@ class ControladorProducto extends Controller
 
             for ($i = $inicio; $i < count($aProductos) && $cont < $registros_por_pagina; $i++) {
                   $row = array();
-                  $row[] = $aProductos[$i]->imagen;
+                  $row[] = "<img src='" . asset('web/images/' . $aProductos[$i]->imagen) . "' width='60'>";
                   $row[] = "<a href='/admin/producto/" . $aProductos[$i]->idproducto . "'>" . $aProductos[$i]->titulo . "</a>";
                   $row[] = $aProductos[$i]->precio;
                   $row[] = $aProductos[$i]->cantidad;
